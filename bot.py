@@ -14,7 +14,7 @@ import random
 import os
 
 import os
-TOKEN = os.getenv("https://discord.com/oauth2/authorize?client_id=1483212729501356283")
+TOKEN = os.getenv("TOKEN")
 
 CACHE = "cartas.json"
 BASE = "https://kodem-tcg.com"
