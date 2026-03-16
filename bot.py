@@ -1,18 +1,17 @@
 import discord
 from discord.ext import commands
 import requests
+from bs4 import BeautifulSoup
+from rapidfuzz import process
 import json
+import re
 import random
 import os
-import re
-from rapidfuzz import process
 
 TOKEN = os.getenv("TOKEN")
 
 CACHE = "cartas.json"
-
-# directorio donde el sitio guarda las imágenes
-IMAGE_BASE = "https://kodem-tcg.com/wp-content/uploads"
+URL = "https://www.kodem-fandom.com/lista-de-cartas/"
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -21,6 +20,8 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 cartas = {}
 
+HEADERS = {"User-Agent": "Mozilla/5.0"}
+
 # ---------------- CACHE ----------------
 
 def guardar_cache():
@@ -28,14 +29,19 @@ def guardar_cache():
         json.dump(cartas, f, ensure_ascii=False, indent=2)
 
 def cargar_cache():
+
     global cartas
 
     if os.path.exists(CACHE):
+
         with open(CACHE, encoding="utf-8") as f:
             cartas = json.load(f)
+
         print(f"{len(cartas)} cartas cargadas desde cache")
+
     else:
-        print("No hay cache, generando cartas...")
+
+        print("No hay cache, scrapeando...")
         actualizar_cartas()
 
 # ---------------- SCRAPER ----------------
@@ -45,38 +51,40 @@ def actualizar_cartas():
     global cartas
     cartas = {}
 
-    print("Buscando imágenes de cartas...")
+    print("Descargando lista de cartas...")
 
-    # años posibles de subida
-    años = ["2023", "2024", "2025", "2026"]
+    r = requests.get(URL, headers=HEADERS)
+    soup = BeautifulSoup(r.text, "html.parser")
 
-    for año in años:
-        for mes in range(1, 13):
+    links = soup.find_all("a")
 
-            carpeta = f"{IMAGE_BASE}/{año}/{str(mes).zfill(2)}/"
+    for link in links:
+
+        href = link.get("href")
+        nombre = link.text.strip()
+
+        if not href:
+            continue
+
+        # detectar enlaces de cartas
+        if "/carta/" in href or "/card/" in href:
 
             try:
 
-                r = requests.get(carpeta)
+                r2 = requests.get(href, headers=HEADERS)
+                soup2 = BeautifulSoup(r2.text, "html.parser")
 
-                if r.status_code != 200:
-                    continue
+                imagen = soup2.find("img")
 
-                archivos = re.findall(r'href="([^"]+\.png)"', r.text)
-
-                for archivo in archivos:
-
-                    url = carpeta + archivo
-
-                    nombre = archivo.replace(".png", "").replace("-", " ")
+                if imagen:
 
                     cartas[nombre.lower()] = {
-                        "nombre": nombre.title(),
-                        "imagen": url,
-                        "url": url
+                        "nombre": nombre,
+                        "imagen": imagen["src"],
+                        "url": href
                     }
 
-                    print("Carta encontrada:", nombre)
+                    print("Carta:", nombre)
 
             except:
                 pass
@@ -107,6 +115,7 @@ def embed_carta(c):
 
     e = discord.Embed(
         title=c["nombre"],
+        url=c["url"],
         color=0x5865F2
     )
 
@@ -147,7 +156,7 @@ async def update(ctx):
 
     await ctx.send(f"{len(cartas)} cartas actualizadas.")
 
-# ---------------- DETECTOR MENSAJES ----------------
+# ---------------- DETECTOR ----------------
 
 @bot.event
 async def on_message(message):
