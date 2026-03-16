@@ -1,3 +1,8 @@
+headers = {
+"User-Agent": "Mozilla/5.0"
+}
+
+requests.get(url, headers=headers)
 import discord
 from discord.ext import commands
 import requests
