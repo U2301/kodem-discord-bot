@@ -8,7 +8,8 @@ import re
 import random
 import os
 
-TOKEN = "Thttps://discord.com/oauth2/authorize?client_id=1483212729501356283"
+import os
+TOKEN = os.getenv("https://discord.com/oauth2/authorize?client_id=1483212729501356283")
 
 CACHE = "cartas.json"
 BASE = "https://kodem-tcg.com"
