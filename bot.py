@@ -59,82 +59,71 @@ def actualizar_cartas():
     global cartas
     cartas = {}
 
-    print("Indexando expansiones...")
+    print("Actualizando cartas desde la web...")
 
-    r = requests.get(f"{BASE}/cartas", headers=HEADERS)
-    soup = BeautifulSoup(r.text, "html.parser")
+    try:
 
-    expansion_links = []
+        r = requests.get(f"{BASE}/cartas", headers={"User-Agent": "Mozilla/5.0"})
+        soup = BeautifulSoup(r.text, "html.parser")
 
-    for link in soup.find_all("a"):
+        expansiones = []
 
-        href = link.get("href")
+        # encontrar links de expansiones
+        for a in soup.find_all("a", href=True):
 
-        if href and "/cartas/" in href and "detalle" not in href:
+            href = a["href"]
 
-            expansion_links.append(BASE + href)
+            if "/cartas/" in href and "detalle" not in href:
+                url = BASE + href if href.startswith("/") else href
 
-    expansion_links = list(set(expansion_links))
+                if url not in expansiones:
+                    expansiones.append(url)
 
-    print(f"{len(expansion_links)} expansiones detectadas")
+        print(f"Expansiones encontradas: {len(expansiones)}")
 
-    carta_links = []
+        # recorrer expansiones
+        for exp in expansiones:
 
-    # recorrer expansiones
-    for exp in expansion_links:
+            try:
 
-        try:
+                r2 = requests.get(exp, headers={"User-Agent": "Mozilla/5.0"})
+                soup2 = BeautifulSoup(r2.text, "html.parser")
 
-            r = requests.get(exp, headers=HEADERS)
-            soup = BeautifulSoup(r.text, "html.parser")
+                for a in soup2.find_all("a", href=True):
 
-            for link in soup.find_all("a"):
+                    href = a["href"]
 
-                href = link.get("href")
+                    if "detalle" in href:
 
-                if href and "detalle" in href:
+                        pagina = BASE + href if href.startswith("/") else href
 
-                    carta_links.append(BASE + href)
+                        r3 = requests.get(pagina, headers={"User-Agent": "Mozilla/5.0"})
+                        soup3 = BeautifulSoup(r3.text, "html.parser")
 
-        except:
-            pass
+                        nombre = soup3.find("h1")
+                        imagen = soup3.find("img")
 
-    carta_links = list(set(carta_links))
+                        if nombre and imagen:
 
-    print(f"{len(carta_links)} cartas detectadas")
+                            nombre = nombre.text.strip()
 
-    # scrapear cada carta
-    for i, pagina in enumerate(carta_links):
+                            cartas[nombre.lower()] = {
+                                "nombre": nombre,
+                                "imagen": imagen["src"],
+                                "url": pagina
+                            }
 
-        try:
+                            print("Carta indexada:", nombre)
 
-            r = requests.get(pagina, headers=HEADERS)
-            soup = BeautifulSoup(r.text, "html.parser")
+            except Exception as e:
+                print("Error en expansión:", e)
 
-            nombre = soup.find("h1")
-            imagen = soup.find("img")
+        guardar_cache()
 
-            if nombre and imagen:
+        print(f"{len(cartas)} cartas indexadas")
 
-                nombre = nombre.text.strip()
-
-                cartas[nombre.lower()] = {
-                    "nombre": nombre,
-                    "imagen": imagen["src"],
-                    "url": pagina
-                }
-
-            if i % 20 == 0:
-                print(f"{i}/{len(carta_links)} cartas indexadas")
-
-            time.sleep(0.2)
-
-        except:
-            pass
-
-    guardar_cache()
-
-    print(f"{len(cartas)} cartas indexadas correctamente")
+    except Exception as e:
+        print("Error general:", e)
 
 
 # ------------------------
