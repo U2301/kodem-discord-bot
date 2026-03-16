@@ -7,12 +7,11 @@ import json
 import re
 import random
 import os
-import time
 
 TOKEN = os.getenv("TOKEN")
 
-CACHE = "cartas.json"
 BASE = "https://kodem-tcg.com"
+CACHE = "cartas.json"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0"
@@ -51,7 +50,7 @@ def cargar_cache():
 
 
 # ------------------------
-# SCRAPER MEJORADO
+# SCRAPER
 # ------------------------
 
 def actualizar_cartas():
@@ -59,68 +58,58 @@ def actualizar_cartas():
     global cartas
     cartas = {}
 
-    print("Actualizando cartas desde la web...")
+    print("Buscando cartas en la web...")
 
     try:
 
-        r = requests.get(f"{BASE}/cartas", headers={"User-Agent": "Mozilla/5.0"})
+        r = requests.get(f"{BASE}/cartas", headers=HEADERS)
         soup = BeautifulSoup(r.text, "html.parser")
 
-        expansiones = []
+        links = soup.find_all("a", href=True)
 
-        # encontrar links de expansiones
-        for a in soup.find_all("a", href=True):
+        detalle_links = []
+
+        for a in links:
 
             href = a["href"]
 
-            if "/cartas/" in href and "detalle" not in href:
+            if "detalle" in href:
+
                 url = BASE + href if href.startswith("/") else href
 
-                if url not in expansiones:
-                    expansiones.append(url)
+                if url not in detalle_links:
+                    detalle_links.append(url)
 
-        print(f"Expansiones encontradas: {len(expansiones)}")
+        print(f"{len(detalle_links)} paginas de carta encontradas")
 
-        # recorrer expansiones
-        for exp in expansiones:
+        for pagina in detalle_links:
 
             try:
 
-                r2 = requests.get(exp, headers={"User-Agent": "Mozilla/5.0"})
+                r2 = requests.get(pagina, headers=HEADERS)
                 soup2 = BeautifulSoup(r2.text, "html.parser")
 
-                for a in soup2.find_all("a", href=True):
+                nombre = soup2.find("h1")
+                imagen = soup2.find("img")
 
-                    href = a["href"]
+                if nombre and imagen:
 
-                    if "detalle" in href:
+                    nombre = nombre.text.strip()
 
-                        pagina = BASE + href if href.startswith("/") else href
+                    cartas[nombre.lower()] = {
+                        "nombre": nombre,
+                        "imagen": imagen["src"],
+                        "url": pagina
+                    }
 
-                        r3 = requests.get(pagina, headers={"User-Agent": "Mozilla/5.0"})
-                        soup3 = BeautifulSoup(r3.text, "html.parser")
-
-                        nombre = soup3.find("h1")
-                        imagen = soup3.find("img")
-
-                        if nombre and imagen:
-
-                            nombre = nombre.text.strip()
-
-                            cartas[nombre.lower()] = {
-                                "nombre": nombre,
-                                "imagen": imagen["src"],
-                                "url": pagina
-                            }
-
-                            print("Carta indexada:", nombre)
+                    print("Carta indexada:", nombre)
 
             except Exception as e:
-                print("Error en expansión:", e)
+                print("Error leyendo carta:", e)
 
         guardar_cache()
 
-        print(f"{len(cartas)} cartas indexadas")
+        print(f"{len(cartas)} cartas indexadas correctamente")
 
     except Exception as e:
         print("Error general:", e)
@@ -134,10 +123,12 @@ def buscar(nombre):
 
     nombres = list(cartas.keys())
 
+    if not nombres:
+        return None
+
     resultado = process.extractOne(nombre.lower(), nombres)
 
     if resultado and resultado[1] > 60:
-
         return cartas[resultado[0]]
 
     return None
@@ -149,15 +140,15 @@ def buscar(nombre):
 
 def embed_carta(c):
 
-    embed = discord.Embed(
+    e = discord.Embed(
         title=c["nombre"],
         url=c["url"],
         color=0x5865F2
     )
 
-    embed.set_image(url=c["imagen"])
+    e.set_image(url=c["imagen"])
 
-    return embed
+    return e
 
 
 # ------------------------
@@ -180,8 +171,12 @@ async def carta(ctx, *, nombre):
 # RANDOM
 # ------------------------
 
-@bot.command()
-async def random(ctx):
+@bot.command(name="random")
+async def carta_random(ctx):
+
+    if not cartas:
+        await ctx.send("No hay cartas cargadas.")
+        return
 
     c = random.choice(list(cartas.values()))
 
@@ -203,7 +198,7 @@ async def update(ctx):
 
 
 # ------------------------
-# DETECCION MENSAJES
+# DETECCION EN MENSAJES
 # ------------------------
 
 @bot.event
@@ -214,10 +209,7 @@ async def on_message(message):
 
     nombres = []
 
-    # formato *-
     nombres += re.findall(r"\*\-(.+?)", message.content)
-
-    # formato [[ ]]
     nombres += re.findall(r"\[\[(.+?)\]\]", message.content)
 
     for nombre in nombres:
@@ -225,7 +217,6 @@ async def on_message(message):
         c = buscar(nombre)
 
         if c:
-
             await message.channel.send(embed=embed_carta(c))
 
     await bot.process_commands(message)
@@ -241,7 +232,4 @@ async def on_ready():
     cargar_cache()
 
 
-if not TOKEN:
-    print("ERROR: TOKEN no encontrado")
-else:
-    bot.run(TOKEN)
+bot.run(TOKEN)
