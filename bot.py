@@ -1,19 +1,18 @@
 import discord
 from discord.ext import commands
 import requests
-from bs4 import BeautifulSoup
-from rapidfuzz import process
 import json
-import re
 import random
 import os
+import re
+from rapidfuzz import process
 
 TOKEN = os.getenv("TOKEN")
 
-BASE = "https://kodem-tcg.com"
 CACHE = "cartas.json"
 
-HEADERS = {"User-Agent": "Mozilla/5.0"}
+# directorio donde el sitio guarda las imágenes
+IMAGE_BASE = "https://kodem-tcg.com/wp-content/uploads"
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -25,23 +24,18 @@ cartas = {}
 # ---------------- CACHE ----------------
 
 def guardar_cache():
-    with open(CACHE,"w",encoding="utf-8") as f:
-        json.dump(cartas,f,ensure_ascii=False,indent=2)
+    with open(CACHE, "w", encoding="utf-8") as f:
+        json.dump(cartas, f, ensure_ascii=False, indent=2)
 
 def cargar_cache():
-
     global cartas
 
     if os.path.exists(CACHE):
-
-        with open(CACHE,encoding="utf-8") as f:
-            cartas=json.load(f)
-
+        with open(CACHE, encoding="utf-8") as f:
+            cartas = json.load(f)
         print(f"{len(cartas)} cartas cargadas desde cache")
-
     else:
-
-        print("No hay cache, scrapeando...")
+        print("No hay cache, generando cartas...")
         actualizar_cartas()
 
 # ---------------- SCRAPER ----------------
@@ -49,75 +43,60 @@ def cargar_cache():
 def actualizar_cartas():
 
     global cartas
-    cartas={}
+    cartas = {}
 
-    print("Buscando páginas de cartas...")
+    print("Buscando imágenes de cartas...")
 
-    try:
+    # años posibles de subida
+    años = ["2023", "2024", "2025", "2026"]
 
-        r=requests.get(f"{BASE}/cartas",headers=HEADERS)
-        soup=BeautifulSoup(r.text,"html.parser")
+    for año in años:
+        for mes in range(1, 13):
 
-        urls=set()
-
-        for a in soup.find_all("a",href=True):
-
-            href=a["href"]
-
-            if "/cartas/" in href:
-
-                if href.startswith("/"):
-                    href=BASE+href
-
-                urls.add(href)
-
-        print(f"{len(urls)} páginas encontradas")
-
-        for pagina in urls:
+            carpeta = f"{IMAGE_BASE}/{año}/{str(mes).zfill(2)}/"
 
             try:
 
-                r2=requests.get(pagina,headers=HEADERS)
-                soup2=BeautifulSoup(r2.text,"html.parser")
+                r = requests.get(carpeta)
 
-                nombre=soup2.find("h1")
-                imagen=soup2.find("img")
+                if r.status_code != 200:
+                    continue
 
-                if nombre and imagen:
+                archivos = re.findall(r'href="([^"]+\.png)"', r.text)
 
-                    nombre=nombre.text.strip()
+                for archivo in archivos:
 
-                    cartas[nombre.lower()]={
-                        "nombre":nombre,
-                        "imagen":imagen["src"],
-                        "url":pagina
+                    url = carpeta + archivo
+
+                    nombre = archivo.replace(".png", "").replace("-", " ")
+
+                    cartas[nombre.lower()] = {
+                        "nombre": nombre.title(),
+                        "imagen": url,
+                        "url": url
                     }
 
-                    print("Carta:",nombre)
+                    print("Carta encontrada:", nombre)
 
             except:
                 pass
 
-        guardar_cache()
+    guardar_cache()
 
-        print(f"{len(cartas)} cartas indexadas correctamente")
-
-    except Exception as e:
-
-        print("Error en scraper:",e)
+    print(f"{len(cartas)} cartas indexadas")
 
 # ---------------- BUSQUEDA ----------------
 
 def buscar(nombre):
 
-    nombres=list(cartas.keys())
+    nombres = list(cartas.keys())
 
     if not nombres:
         return None
 
-    resultado=process.extractOne(nombre.lower(),nombres)
+    resultado = process.extractOne(nombre.lower(), nombres)
 
-    if resultado and resultado[1]>60:
+    if resultado and resultado[1] > 60:
         return cartas[resultado[0]]
 
     return None
@@ -126,9 +105,8 @@ def buscar(nombre):
 
 def embed_carta(c):
 
-    e=discord.Embed(
+    e = discord.Embed(
         title=c["nombre"],
-        url=c["url"],
         color=0x5865F2
     )
 
@@ -139,9 +117,9 @@ def embed_carta(c):
 # ---------------- COMANDOS ----------------
 
 @bot.command()
-async def carta(ctx,*,nombre):
+async def carta(ctx, *, nombre):
 
-    c=buscar(nombre)
+    c = buscar(nombre)
 
     if not c:
         await ctx.send("Carta no encontrada.")
@@ -156,20 +134,20 @@ async def carta_random(ctx):
         await ctx.send("No hay cartas cargadas.")
         return
 
-    c=random.choice(list(cartas.values()))
+    c = random.choice(list(cartas.values()))
 
     await ctx.send(embed=embed_carta(c))
 
 @bot.command()
 async def update(ctx):
 
-    await ctx.send("Actualizando cartas desde la web...")
+    await ctx.send("Actualizando cartas...")
 
     actualizar_cartas()
 
     await ctx.send(f"{len(cartas)} cartas actualizadas.")
 
-# ---------------- DETECCION MENSAJES ----------------
+# ---------------- DETECTOR MENSAJES ----------------
 
 @bot.event
 async def on_message(message):
@@ -177,14 +155,14 @@ async def on_message(message):
     if message.author.bot:
         return
 
-    nombres=[]
+    nombres = []
 
-    nombres+=re.findall(r"\*\-(.+?)",message.content)
-    nombres+=re.findall(r"\[\[(.+?)\]\]",message.content)
+    nombres += re.findall(r"\*\-(.+?)", message.content)
+    nombres += re.findall(r"\[\[(.+?)\]\]", message.content)
 
     for nombre in nombres:
 
-        c=buscar(nombre)
+        c = buscar(nombre)
 
         if c:
             await message.channel.send(embed=embed_carta(c))
