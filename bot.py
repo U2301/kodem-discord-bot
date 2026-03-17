@@ -28,7 +28,7 @@ MODE = os.getenv("MODE", "prod").strip().lower()
 RAW_GUILD_ENV = os.getenv("GUILD_ID", "")
 RAW_GUILD_ENV_DIGITS = re.sub(r"\D", "", RAW_GUILD_ENV or "")
 GUILD_ID = int(RAW_GUILD_ENV_DIGITS) if RAW_GUILD_ENV_DIGITS else 0
-GUILD_OBJ = discord.Object(id=GUILD_ID) if (MODE == "dev" and GUILD_ID > 0) else None
+GUILD_OBJ = discord.Object(id=GUILD_ID) if GUILD_ID > 0 else None
 
 print(f"[env] MODE='{MODE}' | GUILD_ID(raw)='{RAW_GUILD_ENV}' | parsed={GUILD_ID}")
 
@@ -219,18 +219,12 @@ def embed_carta(carta: Dict):
     return e, None
 
 # ======================================================
-# SYNC DE SLASH (DEV: guild primero, luego limpia global)
+# SYNC DE SLASH
+#   DEV: guild primero (instantáneo) y luego limpiar global a 0
+#   PROD: limpiar guild (si quedó algo de DEV) y registrar sólo global
 # ======================================================
 @bot.event
 async def setup_hook():
-    """
-    - DEV:
-        1) Copia global -> guild (local)
-        2) sync guild  (debe dar > 0)
-        3) limpia global local y sync global -> 0 (sin duplicados)
-    - PROD:
-        * Sólo global
-    """
     try:
         if MODE == "dev":
             if not GUILD_OBJ:
@@ -238,18 +232,24 @@ async def setup_hook():
                 synced = await bot.tree.sync()
                 print(f"[setup_hook] MODE=dev (fallback): Slash (global) sincronizados: {len(synced)}")
             else:
-                # 1) Copia definiciones globales actuales a GUILD (en el árbol local)
+                # 1) Copia definiciones globales al árbol local de ese guild y sincroniza (instantáneo)
                 bot.tree.copy_global_to(guild=GUILD_OBJ)
-                # 2) Sincroniza GUILD (aparece de inmediato en tu server)
                 synced_g = await bot.tree.sync(guild=GUILD_OBJ)
                 print(f"[setup_hook] MODE=dev: Slash (guild={GUILD_ID}) sincronizados: {len(synced_g)}")
 
-                # 3) Limpia GLOBAL local y sincroniza a 0 (elimina duplicados globales)
+                # 2) Limpia global local y sincroniza 0 a global (para que no queden duplicados en el cliente)
                 bot.tree.clear_commands(guild=None)
                 synced_glob = await bot.tree.sync()
                 print(f"[setup_hook] MODE=dev: Slash (global) sincronizados: {len(synced_glob)} (esperado 0)")
         else:
-            # PROD: sólo GLOBAL
+            # PROD
+            # 1) Si quedó algo de DEV en tu guild, límpialo explícitamente
+            if GUILD_OBJ:
+                bot.tree.clear_commands(guild=GUILD_OBJ)   # borra comandos de ese guild en el árbol local
+                cleared = await bot.tree.sync(guild=GUILD_OBJ)  # empuja "0" al guild (borra remotos)
+                print(f"[setup_hook] MODE=prod: Limpieza guild={GUILD_ID} -> {len(cleared)} comandos (esperado 0)")
+
+            # 2) Registra SÓLO GLOBAL (disponible en todos los servidores; puede tardar en cliente)
             synced = await bot.tree.sync()
             print(f"[setup_hook] MODE=prod: Slash (global) sincronizados: {len(synced)}")
     except Exception as e:
