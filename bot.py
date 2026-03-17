@@ -12,16 +12,17 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-cartas = {}
+cartas = cargar_cartas()
 
+import json, os
+
+CARTAS_FILE_CANDIDATOS = ["cartas.json", "cards.json"]  # primero el nuevo nombre
 def cargar_cartas():
-    global cartas
-
-    with open("cards.json", encoding="utf8") as f:
-        data = json.load(f)
-
-    for c in data:
-        cartas[c["nombre"].lower()] = c
+    for fn in CARTAS_FILE_CANDIDATOS:
+        if os.path.exists(fn):
+            with open(fn, "r", encoding="utf-8") as f:
+                return json.load(f)
+    raise FileNotFoundError("No encontré ni 'cartas.json' ni 'cards.json' en la carpeta del bot.")
 
 
 def embed_carta(carta):
