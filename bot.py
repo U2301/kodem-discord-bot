@@ -14,20 +14,17 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 cartas = {}
 
+
 def cargar_cartas():
+
     global cartas
 
-    with open("cartas.json", encoding="utf-8") as f:
+    with open("cartas.json", encoding="utf8") as f:
         data = json.load(f)
 
     for c in data:
         cartas[c["nombre"].lower()] = c
 
-@bot.event
-async def on_ready():
-    print(f"Bot conectado como {bot.user}")
-    cargar_cartas()
-    print(f"{len(cartas)} cartas cargadas.")
 
 def crear_embed(carta):
 
@@ -42,11 +39,23 @@ Expansión: {carta['expansion']}
     )
 
     if os.path.exists(carta["imagen"]):
+
         file = discord.File(carta["imagen"], filename="carta.jpg")
         embed.set_image(url="attachment://carta.jpg")
+
         return embed, file
 
     return embed, None
+
+
+@bot.event
+async def on_ready():
+
+    print("Bot conectado como", bot.user)
+
+    cargar_cartas()
+
+    print("Cartas cargadas:", len(cartas))
 
 
 @bot.command()
@@ -77,6 +86,26 @@ async def random(ctx):
         await ctx.send(embed=embed, file=file)
     else:
         await ctx.send(embed=embed)
+
+
+@bot.command()
+async def buscar(ctx, *, filtro):
+
+    resultados = []
+
+    for c in cartas.values():
+
+        if filtro.lower() in c["tipo"].lower() or filtro.lower() in c["energia"].lower():
+
+            resultados.append(c["nombre"])
+
+    if not resultados:
+        await ctx.send("No se encontraron cartas")
+        return
+
+    texto = "\n".join(resultados[:20])
+
+    await ctx.send(texto)
 
 
 @bot.event
