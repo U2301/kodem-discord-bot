@@ -177,3 +177,38 @@ async def update(ctx):
     await ctx.send(f"Base actualizada: {len(cartas)} cartas.")
 
 bot.run(TOKEN)
+
+@bot.event
+async def on_message(message):
+
+    if message.author.bot:
+        return
+
+    texto = message.content.lower()
+
+    # detectar formato [[carta]]
+    matches = re.findall(r"\[\[(.*?)\]\]", texto)
+
+    for m in matches:
+        carta = cartas.get(normalizar(m))
+        if carta:
+            emb, file = embed_carta(carta)
+
+            if file:
+                await message.channel.send(embed=emb, file=file)
+            else:
+                await message.channel.send(embed=emb)
+
+    # detectar nombre simple
+    for nombre, carta in cartas.items():
+        if nombre in texto:
+            emb, file = embed_carta(carta)
+
+            if file:
+                await message.channel.send(embed=emb, file=file)
+            else:
+                await message.channel.send(embed=emb)
+
+            break
+
+    await bot.process_commands(message)
