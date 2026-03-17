@@ -16,6 +16,7 @@ EXPANSION_HEADERS = {
     'TITANES DE LA CORTEZA Y OJOS DEL OCEANO': 'Titanes de la Corteza y Ojos del Océano',
 }
 
+# ID con nombre (para capturar) y sin nombre (para lookahead)
 ID_NAMED = r"(?P<id>[A-Z]{3,}[A-Z]?(?:\s*-\s*)?\d{3})"
 ID_PLAIN = r"(?:[A-Z]{3,}[A-Z]?(?:\s*-\s*)?\d{3})"
 BLOCK_RE = re.compile(
@@ -30,21 +31,18 @@ REPLACE_NOISE = [
     (re.compile(r"Chaáktica|Cháacktica|Cháacktica", re.IGNORECASE), "Cháaktica"),
 ]
 
-
 def normalize_id(cid: str) -> str:
-    cid = cid.replace('–', '-').replace('—', '-')
+    cid = cid.replace('\u2013', '-').replace('\u2014', '-')
     cid = re.sub(r"\s*\-\s*", '-', cid)
     if re.match(r"^[A-Z]{4,}\d{3}$", cid):
         cid = cid[:-3] + '-' + cid[-3:]
     return cid
 
-
 def clean_field(val: str) -> str:
     val = val.strip(" :\n\t")
-    # elimina artefactos como '21.-' pegados al final
+    # elimina artefactos tipo "4.-" al final
     val = re.sub(r"\s*\d+\.-$", "", val).strip()
     return val
-
 
 def extract_cards(pdf_file: Path) -> List[Dict]:
     reader = PdfReader(str(pdf_file))
@@ -64,7 +62,6 @@ def extract_cards(pdf_file: Path) -> List[Dict]:
             nombre = clean_field(m.group('nombre'))
             tipo = clean_field(m.group('tipo'))
             energia = clean_field(m.group('energia')).replace('N/A', 'Ninguna')
-            energia = re.sub(r'\s\d+\.-', '', energia).strip()
             cards.append({
                 'id': cid,
                 'nombre': nombre,
@@ -73,6 +70,7 @@ def extract_cards(pdf_file: Path) -> List[Dict]:
                 'expansion': current_expansion or 'Desconocida',
                 'imagen': None,
             })
+    # De-dup
     out, seen = [], set()
     for c in cards:
         if c['id'] in seen:
@@ -81,33 +79,30 @@ def extract_cards(pdf_file: Path) -> List[Dict]:
         out.append(c)
     return out
 
-
-def assign_images(cards, img_dir: Path) -> None:
-    if not img_dir.exists():
+def assign_images(cards) -> None:
+    if not IMG_DIR.exists():
         return
 
     def img_sort_key(p: Path):
-        # Extrae el primer número en el nombre (sin extensión)
-        import re
+        # Orden numérico si encuentra número en el nombre; si no, por nombre
         m = re.search(r'(\d+)', p.stem)
         if m:
-            return (0, int(m.group(1)))  # primero los que tienen número, por ese número
-        return (1, p.name.lower())       # después, sin número, por nombre
+            return (0, int(m.group(1)))
+        return (1, p.name.lower())
 
     imgs = sorted(
-        [p for p in img_dir.iterdir() if p.suffix.lower() in {'.jpg', '.jpeg', '.png', '.webp'}],
+        [p for p in IMG_DIR.iterdir() if p.suffix.lower() in {'.jpg', '.jpeg', '.png', '.webp'}],
         key=img_sort_key
     )
 
     for i, card in enumerate(cards):
         card['imagen'] = str(imgs[i]) if i < len(imgs) else None
 
-
 def main():
     if not PDF_FILE.exists():
-        raise SystemExit('No se encontró el PDF')
+        raise SystemExit('No se encontró el PDF: {}'.format(PDF_FILE))
     cards = extract_cards(PDF_FILE)
-    assign_images(cards)
+    assign_images(cards)  # <- ahora solo recibe cards
     cards.sort(key=lambda x: x['id'])
     OUT_FILE.write_text(json.dumps(cards, ensure_ascii=False, indent=2), encoding='utf-8')
     print(f"Generado {OUT_FILE} con {len(cards)} cartas")
