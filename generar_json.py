@@ -82,12 +82,25 @@ def extract_cards(pdf_file: Path) -> List[Dict]:
     return out
 
 
-def assign_images(cards: List[Dict]):
-    if not IMG_DIR.exists():
+def assign_images(cards, img_dir: Path) -> None:
+    if not img_dir.exists():
         return
-    imgs = [p.name for p in sorted(IMG_DIR.iterdir()) if p.suffix.lower() in {'.jpg', '.jpeg', '.png', '.webp'}]
-    for i, c in enumerate(cards):
-        c['imagen'] = str(IMG_DIR / imgs[i]) if i < len(imgs) else None
+
+    def img_sort_key(p: Path):
+        # Extrae el primer número en el nombre (sin extensión)
+        import re
+        m = re.search(r'(\d+)', p.stem)
+        if m:
+            return (0, int(m.group(1)))  # primero los que tienen número, por ese número
+        return (1, p.name.lower())       # después, sin número, por nombre
+
+    imgs = sorted(
+        [p for p in img_dir.iterdir() if p.suffix.lower() in {'.jpg', '.jpeg', '.png', '.webp'}],
+        key=img_sort_key
+    )
+
+    for i, card in enumerate(cards):
+        card['imagen'] = str(imgs[i]) if i < len(imgs) else None
 
 
 def main():
