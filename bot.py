@@ -1,190 +1,179 @@
-import discord
-from discord.ext import commands
-import requests
-from bs4 import BeautifulSoup
-from rapidfuzz import process
-import json
+import os
 import re
 import random
-import os
+from collections import defaultdict
+
+import discord
+from discord.ext import commands
+from pdfminer.high_level import extract_text
 
 TOKEN = os.getenv("TOKEN")
 
-CACHE = "cartas.json"
-URL = "https://www.kodem-fandom.com/lista-de-cartas/"
+PDF_PATH = "Kodem base de datos .pdf"
+IMG_DIR = "imagenes"
 
 intents = discord.Intents.default()
 intents.message_content = True
-
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 cartas = {}
+cartas_por_tipo = defaultdict(list)
+cartas_por_energia = defaultdict(list)
+cartas_por_expansion = defaultdict(list)
 
-HEADERS = {"User-Agent": "Mozilla/5.0"}
+def normalizar(s):
+    return s.lower().strip()
 
-# ---------------- CACHE ----------------
+def parsear_pdf():
+    """
+    Extrae cartas del PDF en orden y les asigna imageN.jpeg según su índice.
+    """
+    texto = extract_text(PDF_PATH)
 
-def guardar_cache():
-    with open(CACHE, "w", encoding="utf-8") as f:
-        json.dump(cartas, f, ensure_ascii=False, indent=2)
+    # Detectar expansiones por títulos conocidos
+    expansion = None
+    expansiones_keywords = {
+        "RAICES MISTICAS": "Raíces Místicas",
+        "La guerra roja": "La Guerra Roja",
+        "Titanes de la corteza": "Titanes de la Corteza y Ojos del Océano",
+    }
 
-def cargar_cache():
-
-    global cartas
-
-    if os.path.exists(CACHE):
-
-        with open(CACHE, encoding="utf-8") as f:
-            cartas = json.load(f)
-
-        print(f"{len(cartas)} cartas cargadas desde cache")
-
-    else:
-
-        print("No hay cache, scrapeando...")
-        actualizar_cartas()
-
-# ---------------- SCRAPER ----------------
-
-def actualizar_cartas():
-
-    global cartas
-    cartas = {}
-
-    print("Descargando lista de cartas...")
-
-    r = requests.get(URL, headers=HEADERS)
-    soup = BeautifulSoup(r.text, "html.parser")
-
-    links = soup.find_all("a")
-
-    for link in links:
-
-        href = link.get("href")
-        nombre = link.text.strip()
-
-        if not href:
-            continue
-
-        # detectar enlaces de cartas
-        if "/carta/" in href or "/card/" in href:
-
-            try:
-
-                r2 = requests.get(href, headers=HEADERS)
-                soup2 = BeautifulSoup(r2.text, "html.parser")
-
-                imagen = soup2.find("img")
-
-                if imagen:
-
-                    cartas[nombre.lower()] = {
-                        "nombre": nombre,
-                        "imagen": imagen["src"],
-                        "url": href
-                    }
-
-                    print("Carta:", nombre)
-
-            except:
-                pass
-
-    guardar_cache()
-
-    print(f"{len(cartas)} cartas indexadas")
-
-# ---------------- BUSQUEDA ----------------
-
-def buscar(nombre):
-
-    nombres = list(cartas.keys())
-
-    if not nombres:
-        return None
-
-    resultado = process.extractOne(nombre.lower(), nombres)
-
-    if resultado and resultado[1] > 60:
-        return cartas[resultado[0]]
-
-    return None
-
-# ---------------- EMBED ----------------
-
-def embed_carta(c):
-
-    e = discord.Embed(
-        title=c["nombre"],
-        url=c["url"],
-        color=0x5865F2
+    # Regex para cartas
+    patron = re.compile(
+        r"([A-Z]{3,5}-?\d{3})\s+Nombre:\s*(.*?)\s+Tipo:\s*(.*?)\s+Energ[ií]a:\s*(.*?)\s",
+        re.DOTALL
     )
 
-    e.set_image(url=c["imagen"])
+    coincidencias = list(patron.finditer(texto))
 
-    return e
+    resultado = {}
+    idx = 1
 
-# ---------------- COMANDOS ----------------
+    for m in coincidencias:
+        cid = m.group(1).strip()
+        nombre = m.group(2).strip().replace("\n", " ")
+        tipo = m.group(3).strip()
+        energia = m.group(4).strip()
+
+        # detectar expansión por cercanía en el texto
+        bloque = texto[max(0, m.start()-200):m.start()]
+        for k, v in expansiones_keywords.items():
+            if k.lower() in bloque.lower():
+                expansion = v
+
+        imagen = os.path.join(IMG_DIR, f"image{idx}.jpeg")
+
+        carta = {
+            "id": cid,
+            "nombre": nombre,
+            "tipo": tipo,
+            "energia": energia,
+            "expansion": expansion if expansion else "Desconocida",
+            "imagen": imagen if os.path.exists(imagen) else None
+        }
+
+        resultado[normalizar(nombre)] = carta
+
+        idx += 1
+
+    return resultado
+
+def indexar():
+    cartas_por_tipo.clear()
+    cartas_por_energia.clear()
+    cartas_por_expansion.clear()
+
+    for c in cartas.values():
+        cartas_por_tipo[normalizar(c["tipo"])].append(c)
+        cartas_por_energia[normalizar(c["energia"])].append(c)
+        cartas_por_expansion[normalizar(c["expansion"])].append(c)
+
+@bot.event
+async def on_ready():
+    global cartas
+    print(f"Bot conectado como {bot.user}")
+
+    cartas = parsear_pdf()
+    indexar()
+
+    print(f"{len(cartas)} cartas cargadas.")
+
+def embed_carta(c):
+    emb = discord.Embed(
+        title=c["nombre"],
+        description=f"**Tipo:** {c['tipo']}\n**Energía:** {c['energia']}\n**Expansión:** {c['expansion']}",
+        color=discord.Color.orange()
+    )
+
+    if c["imagen"] and os.path.exists(c["imagen"]):
+        file = discord.File(c["imagen"], filename="carta.jpeg")
+        emb.set_image(url="attachment://carta.jpeg")
+        return emb, file
+    else:
+        return emb, None
 
 @bot.command()
 async def carta(ctx, *, nombre):
-
-    c = buscar(nombre)
-
+    c = cartas.get(normalizar(nombre))
     if not c:
         await ctx.send("Carta no encontrada.")
         return
 
-    await ctx.send(embed=embed_carta(c))
+    emb, file = embed_carta(c)
+    if file:
+        await ctx.send(embed=emb, file=file)
+    else:
+        await ctx.send(embed=emb)
 
-@bot.command(name="random")
-async def carta_random(ctx):
-
+@bot.command()
+async def random(ctx):
     if not cartas:
         await ctx.send("No hay cartas cargadas.")
         return
 
     c = random.choice(list(cartas.values()))
+    emb, file = embed_carta(c)
 
-    await ctx.send(embed=embed_carta(c))
+    if file:
+        await ctx.send(embed=emb, file=file)
+    else:
+        await ctx.send(embed=emb)
+
+@bot.command()
+async def tipo(ctx, *, tipo):
+    lista = cartas_por_tipo.get(normalizar(tipo))
+    if not lista:
+        await ctx.send("No se encontraron cartas de ese tipo.")
+        return
+
+    nombres = "\n".join(c["nombre"] for c in lista[:20])
+    await ctx.send(f"Cartas tipo **{tipo}**:\n{nombres}")
+
+@bot.command()
+async def energia(ctx, *, energia):
+    lista = cartas_por_energia.get(normalizar(energia))
+    if not lista:
+        await ctx.send("No se encontraron cartas con esa energía.")
+        return
+
+    nombres = "\n".join(c["nombre"] for c in lista[:20])
+    await ctx.send(f"Cartas energía **{energia}**:\n{nombres}")
+
+@bot.command()
+async def expansion(ctx, *, expansion):
+    lista = cartas_por_expansion.get(normalizar(expansion))
+    if not lista:
+        await ctx.send("No se encontraron cartas de esa expansión.")
+        return
+
+    nombres = "\n".join(c["nombre"] for c in lista[:20])
+    await ctx.send(f"Cartas de **{expansion}**:\n{nombres}")
 
 @bot.command()
 async def update(ctx):
-
-    await ctx.send("Actualizando cartas...")
-
-    actualizar_cartas()
-
-    await ctx.send(f"{len(cartas)} cartas actualizadas.")
-
-# ---------------- DETECTOR ----------------
-
-@bot.event
-async def on_message(message):
-
-    if message.author.bot:
-        return
-
-    nombres = []
-
-    nombres += re.findall(r"\*\-(.+?)", message.content)
-    nombres += re.findall(r"\[\[(.+?)\]\]", message.content)
-
-    for nombre in nombres:
-
-        c = buscar(nombre)
-
-        if c:
-            await message.channel.send(embed=embed_carta(c))
-
-    await bot.process_commands(message)
-
-# ---------------- READY ----------------
-
-@bot.event
-async def on_ready():
-
-    print(f"Bot conectado como {bot.user}")
-
-    cargar_cache()
+    global cartas
+    cartas = parsear_pdf()
+    indexar()
+    await ctx.send(f"Base actualizada: {len(cartas)} cartas.")
 
 bot.run(TOKEN)
