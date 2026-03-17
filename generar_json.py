@@ -80,8 +80,35 @@ def extract_cards(pdf_file: Path) -> List[Dict]:
     return out
 
 def assign_images(cards) -> None:
+    """
+    Asigna imagenes/imagenN.* a la N-ésima carta en orden de aparición del PDF.
+    Si hay archivos sin número, se ignoran para este mapeo estricto.
+    """
     if not IMG_DIR.exists():
         return
+
+    # Crea un índice por N (1-based) -> Path
+    # Soporta .jpg .jpeg .png .webp
+    valid_ext = {'.jpg', '.jpeg', '.png', '.webp'}
+    index_to_path = {}
+
+    for p in IMG_DIR.iterdir():
+        if p.suffix.lower() not in valid_ext:
+            continue
+        # Busca el primer número que aparezca en el nombre del archivo
+        m = re.search(r'(\d+)', p.stem)
+        if not m:
+            continue
+        n = int(m.group(1))
+        index_to_path[n] = p  # si hay duplicados, el último gana (puedes cambiarlo si quieres)
+
+    # Asigna imagen i -> carta i (i empieza en 1)
+    for i, card in enumerate(cards, start=1):
+        if i in index_to_path:
+            card['imagen'] = str(index_to_path[i])
+        else:
+            card['imagen'] = None
+            
 
     def img_sort_key(p: Path):
         # Orden numérico si encuentra número en el nombre; si no, por nombre
