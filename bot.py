@@ -18,9 +18,15 @@ from difflib import SequenceMatcher
 #  CONFIG
 # =========================
 TOKEN = os.getenv("TOKEN")
-# ⚠️ Pon tu GUILD_ID en variables de entorno (Railway) para sync INSTANTÁNEO.
-GUILD_ID = int(os.getenv("GUILD_ID", "0"))  # ej.: 123456789012345678
-GUILD_OBJ = discord.Object(id=GUILD_ID) if GUILD_ID else None
+
+# 🔧 Leemos GUILD_ID de forma robusta (quitamos espacios/comillas y dejamos solo dígitos)
+RAW_GUILD_ENV = os.getenv("GUILD_ID", "")
+RAW_GUILD_ENV_STRIPPED = (RAW_GUILD_ENV or "").strip()
+RAW_GUILD_ENV_DIGITS = re.sub(r"\D", "", RAW_GUILD_ENV_STRIPPED)  # deja solo números
+GUILD_ID = int(RAW_GUILD_ENV_DIGITS) if RAW_GUILD_ENV_DIGITS else 0
+GUILD_OBJ = discord.Object(id=GUILD_ID) if GUILD_ID > 0 else None
+
+print(f"[env] GUILD_ID raw='{RAW_GUILD_ENV}' | stripped='{RAW_GUILD_ENV_STRIPPED}' | parsed={GUILD_ID}")
 
 DATA_DIR = "data"
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
@@ -215,7 +221,7 @@ async def setup_hook():
     try:
         if GUILD_OBJ:
             print(f"[setup_hook] GUILD_ID detectado: {GUILD_ID}. Registrando slash como GUILD (inmediato).")
-            # clona todos los globales a guild y sincroniza
+            # Clona los globales hacia el guild y sincroniza
             bot.tree.copy_global_to(guild=GUILD_OBJ)
             synced_g = await bot.tree.sync(guild=GUILD_OBJ)
             print(f"[setup_hook] Slash (guild={GUILD_ID}) sincronizados: {len(synced_g)}")
