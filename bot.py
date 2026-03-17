@@ -14,19 +14,17 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 cartas = {}
 
-
 def cargar_cartas():
-
     global cartas
 
-    with open("cartas.json", encoding="utf8") as f:
+    with open("cards.json", encoding="utf8") as f:
         data = json.load(f)
 
     for c in data:
         cartas[c["nombre"].lower()] = c
 
 
-def crear_embed(carta):
+def embed_carta(carta):
 
     embed = discord.Embed(
         title=carta["nombre"],
@@ -39,10 +37,8 @@ Expansión: {carta['expansion']}
     )
 
     if os.path.exists(carta["imagen"]):
-
-        file = discord.File(carta["imagen"], filename="carta.jpg")
-        embed.set_image(url="attachment://carta.jpg")
-
+        file = discord.File(carta["imagen"], filename="card.jpg")
+        embed.set_image(url="attachment://card.jpg")
         return embed, file
 
     return embed, None
@@ -67,7 +63,7 @@ async def carta(ctx, *, nombre):
         await ctx.send("Carta no encontrada")
         return
 
-    embed, file = crear_embed(carta)
+    embed, file = embed_carta(carta)
 
     if file:
         await ctx.send(embed=embed, file=file)
@@ -80,32 +76,12 @@ async def random(ctx):
 
     carta = random.choice(list(cartas.values()))
 
-    embed, file = crear_embed(carta)
+    embed, file = embed_carta(carta)
 
     if file:
         await ctx.send(embed=embed, file=file)
     else:
         await ctx.send(embed=embed)
-
-
-@bot.command()
-async def buscar(ctx, *, filtro):
-
-    resultados = []
-
-    for c in cartas.values():
-
-        if filtro.lower() in c["tipo"].lower() or filtro.lower() in c["energia"].lower():
-
-            resultados.append(c["nombre"])
-
-    if not resultados:
-        await ctx.send("No se encontraron cartas")
-        return
-
-    texto = "\n".join(resultados[:20])
-
-    await ctx.send(texto)
 
 
 @bot.event
@@ -124,7 +100,7 @@ async def on_message(message):
 
         if carta:
 
-            embed, file = crear_embed(carta)
+            embed, file = embed_carta(carta)
 
             if file:
                 await message.channel.send(embed=embed, file=file)
