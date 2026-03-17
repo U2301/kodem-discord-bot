@@ -1,0 +1,1810 @@
+[
+  {
+    "id": "IDMRG-021",
+    "nombre": "Yakerr, Soledad",
+    "tipo": "Adendei",
+    "energia": "Feral",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image65.jpeg"
+  },
+  {
+    "id": "IDMRG-022",
+    "nombre": "Zagal Ruinas",
+    "tipo": "Adendei Equino",
+    "energia": "Feral La guerra roja No./Serie Nombre/Tipo/Energía Imagen",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image66.jpeg"
+  },
+  {
+    "id": "IDRMA-001",
+    "nombre": "Nok, Frío Magno",
+    "tipo": "Rava",
+    "energia": "Gélida",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image45.jpeg"
+  },
+  {
+    "id": "IDRMA-002",
+    "nombre": "Ariam, Balance",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image24.jpeg"
+  },
+  {
+    "id": "IDRMA-003",
+    "nombre": "Ulmor, Ataque Fugaz",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image25.jpeg"
+  },
+  {
+    "id": "IDRMA-004",
+    "nombre": "Zaykan, Luz Celeste",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image26.jpeg"
+  },
+  {
+    "id": "IDRMA-005",
+    "nombre": "Curación Vegetal",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image27.jpeg"
+  },
+  {
+    "id": "IDRMA-006",
+    "nombre": "Karyn, Estrategia",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image28.jpeg"
+  },
+  {
+    "id": "IDRMA-007",
+    "nombre": "Zaren, El Inicio del Viaje",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image29.jpeg"
+  },
+  {
+    "id": "IDRMA-008",
+    "nombre": "Adasí, Amparo Vegetal",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image30.jpeg"
+  },
+  {
+    "id": "IDRMA-009",
+    "nombre": "Karus, Aguijón Letal",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image31.jpeg"
+  },
+  {
+    "id": "IDRMA-010",
+    "nombre": "Nánuk, Arquitecto de Poder",
+    "tipo": "Adendei",
+    "energia": "Feral",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image32.jpeg"
+  },
+  {
+    "id": "IDRMA-011",
+    "nombre": "Hierro",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image33.jpeg"
+  },
+  {
+    "id": "IDRMA-012",
+    "nombre": "Cordyceps, Invación",
+    "tipo": "Adendei Infectado",
+    "energia": "Feral",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image34.jpeg"
+  },
+  {
+    "id": "IDRMA-013",
+    "nombre": "Navi Dequak",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image35.jpeg"
+  },
+  {
+    "id": "IDRMA-014",
+    "nombre": "Ahuehuete, Viejo de Agua",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image36.jpeg"
+  },
+  {
+    "id": "IDRMA-015",
+    "nombre": "Pruebas de Campo",
+    "tipo": "Rot",
+    "energia": "Ninguna d",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image37.jpeg"
+  },
+  {
+    "id": "IDRMA-016",
+    "nombre": "Yogg , Oscuridad",
+    "tipo": "Adendei Abisal",
+    "energia": "Átlica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image38.jpeg"
+  },
+  {
+    "id": "IDRMA-017",
+    "nombre": "Zenam, Descarga Eléctrica",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image39.jpeg"
+  },
+  {
+    "id": "IDRMA-018",
+    "nombre": "Makua, Halcón Marino",
+    "tipo": "Adendei",
+    "energia": "Feral",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image40.jpeg"
+  },
+  {
+    "id": "IDRMA-019",
+    "nombre": "Yakerr , Encuentro",
+    "tipo": "Adendei",
+    "energia": "Feral",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image41.jpeg"
+  },
+  {
+    "id": "IDRMA-020",
+    "nombre": "Ariam, Dualidad",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image42.jpeg"
+  },
+  {
+    "id": "IDRMA-021",
+    "nombre": "El Hundimiento de la Esperanza",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image43.jpeg"
+  },
+  {
+    "id": "IDRMA-022",
+    "nombre": "Yimsah, Voraz",
+    "tipo": "Adendei Equino",
+    "energia": "Feral No./Serie Nombre/Tipo/Energía Imagen",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image44.jpeg"
+  },
+  {
+    "id": "IDRMG-001",
+    "nombre": "Nozi, Corona Marina",
+    "tipo": "Rava",
+    "energia": "Átlica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image23.jpeg"
+  },
+  {
+    "id": "IDRMG-002",
+    "nombre": "Enís, Contamplación",
+    "tipo": "Adendei",
+    "energia": "Gélida",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image46.jpeg"
+  },
+  {
+    "id": "IDRMG-003",
+    "nombre": "Enís , Revelación",
+    "tipo": "Adendei",
+    "energia": "Gélida",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image47.jpeg"
+  },
+  {
+    "id": "IDRMG-004",
+    "nombre": "Xilam, Báculo de Poder",
+    "tipo": "Adendei",
+    "energia": "Húumica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image48.jpeg"
+  },
+  {
+    "id": "IDRMG-005",
+    "nombre": "Xilam, Calma",
+    "tipo": "Adendei",
+    "energia": "Húumica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image49.jpeg"
+  },
+  {
+    "id": "IDRMG-006",
+    "nombre": "Zaykan, Ermitaño",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image50.jpeg"
+  },
+  {
+    "id": "IDRMG-007",
+    "nombre": "Kopit, Guardían de la Corteza",
+    "tipo": "Adendei Guardían",
+    "energia": "Gélida",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image51.jpeg"
+  },
+  {
+    "id": "IDRMG-008",
+    "nombre": "Voracidad Natural",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image52.jpeg"
+  },
+  {
+    "id": "IDRMG-009",
+    "nombre": "Estocada Escarlata",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image53.jpeg"
+  },
+  {
+    "id": "IDRMG-010",
+    "nombre": "Jane, Sabotaje",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image54.jpeg"
+  },
+  {
+    "id": "IDRMG-011",
+    "nombre": "Inácio, Reinicio",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image55.jpeg"
+  },
+  {
+    "id": "IDRMG-012",
+    "nombre": "Sol y Luna",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image56.jpeg"
+  },
+  {
+    "id": "IDRMG-013",
+    "nombre": "Macit, Semilla Dorada",
+    "tipo": "Adendei Guardían",
+    "energia": "Feral",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image57.jpeg"
+  },
+  {
+    "id": "IDRMG-014",
+    "nombre": "Mizthe, Ancentral",
+    "tipo": "Adendei Guardían",
+    "energia": "Feral",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image58.jpeg"
+  },
+  {
+    "id": "IDRMG-015",
+    "nombre": "Erwin, Sopor Felino",
+    "tipo": "Andendei",
+    "energia": "Feral",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image59.jpeg"
+  },
+  {
+    "id": "IDRMG-016",
+    "nombre": "Nánuk, Fiereza Kósmica",
+    "tipo": "Adendei Kósmico",
+    "energia": "Gélida",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image60.jpeg"
+  },
+  {
+    "id": "IDRMG-017",
+    "nombre": "Bóras, Poder Kósmico",
+    "tipo": "Adendei Kósmico",
+    "energia": "Gélida",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image61.jpeg"
+  },
+  {
+    "id": "IDRMG-018",
+    "nombre": "Bóras, Sacrificio",
+    "tipo": "Adendei Kósmico",
+    "energia": "Gélida",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image62.jpeg"
+  },
+  {
+    "id": "IDRMG-019",
+    "nombre": "Petróligia Emergente",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image63.jpeg"
+  },
+  {
+    "id": "IDRMG-020",
+    "nombre": "Aurora Protectora",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image64.jpeg"
+  },
+  {
+    "id": "IDRMP-001",
+    "nombre": "Hori, Huella de Magma Imagen",
+    "tipo": "Rava",
+    "energia": "Pírica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image1.jpeg"
+  },
+  {
+    "id": "IDRMP-002",
+    "nombre": "Ariam, Modo Catrín",
+    "tipo": "Adendei Catrín",
+    "energia": "Pírica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image2.jpeg"
+  },
+  {
+    "id": "IDRMP-003",
+    "nombre": "Zaykan, Análisis",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image3.jpeg"
+  },
+  {
+    "id": "IDRMP-004",
+    "nombre": "Jokokan, Guardían de la Corteza",
+    "tipo": "Adendei Guardían",
+    "energia": "Lítica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image4.jpeg"
+  },
+  {
+    "id": "IDRMP-005",
+    "nombre": "Tzun, Mensajero Celestial",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image5.jpeg"
+  },
+  {
+    "id": "IDRMP-006",
+    "nombre": "Maquemura, Desliz",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image6.jpeg"
+  },
+  {
+    "id": "IDRMP-007",
+    "nombre": "Ceiba, Raíces Cósmicas",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image7.jpeg"
+  },
+  {
+    "id": "IDRMP-008",
+    "nombre": "Yanzi, Precisión",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image8.jpeg"
+  },
+  {
+    "id": "IDRMP-009",
+    "nombre": "Dars, Inspiración",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image9.jpeg"
+  },
+  {
+    "id": "IDRMP-010",
+    "nombre": "La Cúspide",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image10.jpeg"
+  },
+  {
+    "id": "IDRMP-011",
+    "nombre": "Terna Tiniebla",
+    "tipo": "Adendei Equino",
+    "energia": "Feral",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image11.jpeg"
+  },
+  {
+    "id": "IDRMP-012",
+    "nombre": "Adasí, Acecho",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image12.jpeg"
+  },
+  {
+    "id": "IDRMP-013",
+    "nombre": "Ozom , Bocanada de Humo",
+    "tipo": "Adendei",
+    "energia": "Pírica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image13.jpeg"
+  },
+  {
+    "id": "IDRMP-014",
+    "nombre": "Cretus, Profecía",
+    "tipo": "Adendei",
+    "energia": "Pírica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image14.jpeg"
+  },
+  {
+    "id": "IDRMP-015",
+    "nombre": "Naywa, Poder Morféico",
+    "tipo": "Adendei",
+    "energia": "Pírica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image15.jpeg"
+  },
+  {
+    "id": "IDRMP-016",
+    "nombre": "Ilith, Canto Sagrado",
+    "tipo": "Adendei Kósmico",
+    "energia": "Pírica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image16.jpeg"
+  },
+  {
+    "id": "IDRMP-017",
+    "nombre": "Baobab, Inmortal",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image17.jpeg"
+  },
+  {
+    "id": "IDRMP-018",
+    "nombre": "Ambición",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image18.jpeg"
+  },
+  {
+    "id": "IDRMP-019",
+    "nombre": "Escudo Cristalino",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image19.jpeg"
+  },
+  {
+    "id": "IDRMP-020",
+    "nombre": "Shugg, Fuga",
+    "tipo": "Adendei Abisal",
+    "energia": "Feral",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image20.jpeg"
+  },
+  {
+    "id": "IDRMP-021",
+    "nombre": "Uragg , Coloso del terror",
+    "tipo": "Adendei Abisal",
+    "energia": "Pírica",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image21.jpeg"
+  },
+  {
+    "id": "IDRMP-022",
+    "nombre": "Xacros, Peste",
+    "tipo": "Adendei Equino",
+    "energia": "Feral No./Serie Nombre/Tipo/Energía Imagen",
+    "expansion": "Raíces Místicas",
+    "imagen": "imagenes/image22.jpeg"
+  },
+  {
+    "id": "LGRO-001",
+    "nombre": "Zaykan , Retorno del Ermitaño",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image67.jpeg"
+  },
+  {
+    "id": "LGRO-002",
+    "nombre": "Zaykan, Cisma",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image68.jpeg"
+  },
+  {
+    "id": "LGRO-003",
+    "nombre": "Ariam, Límite",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image69.jpeg"
+  },
+  {
+    "id": "LGRO-004",
+    "nombre": "Yakerr Debilidad",
+    "tipo": "Adendei",
+    "energia": "Feral",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image70.jpeg"
+  },
+  {
+    "id": "LGRO-005",
+    "nombre": "Huehue, Maestro Lupino",
+    "tipo": "Adendei",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image71.jpeg"
+  },
+  {
+    "id": "LGRO-006",
+    "nombre": "Yakerr, Trote Cháaktico",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image72.jpeg"
+  },
+  {
+    "id": "LGRO-007",
+    "nombre": "Consejo de Hielo",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image73.jpeg"
+  },
+  {
+    "id": "LGRO-008",
+    "nombre": "Tekei, Responsabilidad",
+    "tipo": "Adendei",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image74.jpeg"
+  },
+  {
+    "id": "LGRO-009",
+    "nombre": "Nánuk, Reclutado",
+    "tipo": "Adendei",
+    "energia": "Feral",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image75.jpeg"
+  },
+  {
+    "id": "LGRO-010",
+    "nombre": "Cretus, Promesa",
+    "tipo": "Adendei",
+    "energia": "Pírica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image76.jpeg"
+  },
+  {
+    "id": "LGRO-011",
+    "nombre": "Zots, Rechazo",
+    "tipo": "Adendei",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image77.jpeg"
+  },
+  {
+    "id": "LGRO-012",
+    "nombre": "Zaykan, Reclutamiento",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image78.jpeg"
+  },
+  {
+    "id": "LGRO-013",
+    "nombre": "Zaykan, Guía Sombría",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image79.jpeg"
+  },
+  {
+    "id": "LGRO-014",
+    "nombre": "Develacíon",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image80.jpeg"
+  },
+  {
+    "id": "LGRO-015",
+    "nombre": "Kunha , Resguardo",
+    "tipo": "Adendei",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image81.jpeg"
+  },
+  {
+    "id": "LGRO-016",
+    "nombre": "Ruk, Trueno Nocturno",
+    "tipo": "Rava",
+    "energia": "Cháaktica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image82.jpeg"
+  },
+  {
+    "id": "LGRO-017",
+    "nombre": "Juan Galgo, Motín",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image83.jpeg"
+  },
+  {
+    "id": "LGRO-018",
+    "nombre": "Allíh, Pesadilla Universal",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image84.jpeg"
+  },
+  {
+    "id": "LGRO-019",
+    "nombre": "Los Herejes",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image85.jpeg"
+  },
+  {
+    "id": "LGRO-020",
+    "nombre": "Cordiceps, Experimentos",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image86.jpeg"
+  },
+  {
+    "id": "LGRO-021",
+    "nombre": "Cordiceps, Plan de Liberacíon",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image87.jpeg"
+  },
+  {
+    "id": "LGRO-022",
+    "nombre": "Armadura Í.C.A.R.O",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image88.jpeg"
+  },
+  {
+    "id": "LGRO-023",
+    "nombre": "Antoine Graham, Sujeto de Prueba",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image89.jpeg"
+  },
+  {
+    "id": "LGRO-024",
+    "nombre": "Expulsíon De Energia Í.C.A.R.O",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image90.jpeg"
+  },
+  {
+    "id": "LGRO-025",
+    "nombre": "Escudos Í.C.A.R.O",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image91.jpeg"
+  },
+  {
+    "id": "LGRO-026",
+    "nombre": "Ozom, Ejército",
+    "tipo": "Adendei",
+    "energia": "Pírico",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image92.jpeg"
+  },
+  {
+    "id": "LGRO-027",
+    "nombre": "Ariam, Defensa Pírica",
+    "tipo": "Adendei",
+    "energia": "Pírica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image93.jpeg"
+  },
+  {
+    "id": "LGRO-028",
+    "nombre": "Enis, Lluvia de Hielo",
+    "tipo": "Adendei",
+    "energia": "Gélida",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image94.jpeg"
+  },
+  {
+    "id": "LGRO-029",
+    "nombre": "Zots, Absorción de Energía",
+    "tipo": "Adendei",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image95.jpeg"
+  },
+  {
+    "id": "LGRO-030",
+    "nombre": "Balim, Anochecer",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image96.jpeg"
+  },
+  {
+    "id": "LGRO-031",
+    "nombre": "Ozet , Amante Lunar",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image97.jpeg"
+  },
+  {
+    "id": "LGRO-032",
+    "nombre": "Ungan, Aleteo Glacial",
+    "tipo": "Adendei",
+    "energia": "Gélida",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image98.jpeg"
+  },
+  {
+    "id": "LGRO-033",
+    "nombre": "Kumba, Despertar",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image99.jpeg"
+  },
+  {
+    "id": "LGRO-034",
+    "nombre": "Tzun, Heraldo",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image100.jpeg"
+  },
+  {
+    "id": "LGRO-035",
+    "nombre": "Pétalos de Fuego",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image101.jpeg"
+  },
+  {
+    "id": "LGRO-036",
+    "nombre": "Embestida Pétrea",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image102.jpeg"
+  },
+  {
+    "id": "LGRO-037",
+    "nombre": "Amanecer",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image103.jpeg"
+  },
+  {
+    "id": "LGRO-038",
+    "nombre": "Protección Selectiva",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image104.jpeg"
+  },
+  {
+    "id": "LGRO-039",
+    "nombre": "Conquista Feroz",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image105.jpeg"
+  },
+  {
+    "id": "LGRO-040",
+    "nombre": "Guerrero Pírico",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image106.jpeg"
+  },
+  {
+    "id": "LGRO-041",
+    "nombre": "Restricción Floral",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image107.jpeg"
+  },
+  {
+    "id": "LGRO-042",
+    "nombre": "Enis, Estocada Gélida",
+    "tipo": "Adendei",
+    "energia": "Gélida",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image108.jpeg"
+  },
+  {
+    "id": "LGRO-043",
+    "nombre": "Nánuk, Zarpazo",
+    "tipo": "Adendei",
+    "energia": "Feral",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image109.jpeg"
+  },
+  {
+    "id": "LGRO-044",
+    "nombre": "Kitse, Cola de Fuego",
+    "tipo": "Adendei",
+    "energia": "Pírica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image110.jpeg"
+  },
+  {
+    "id": "LGRO-045",
+    "nombre": "Kephir, Lanzallamas",
+    "tipo": "Adendei",
+    "energia": "Pírica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image111.jpeg"
+  },
+  {
+    "id": "LGRO-046",
+    "nombre": "Yakerr, Tormenta",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image112.jpeg"
+  },
+  {
+    "id": "LGRO-047",
+    "nombre": "Muz, Sinfonía Cósmica",
+    "tipo": "Rava",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image113.jpeg"
+  },
+  {
+    "id": "LGRO-048",
+    "nombre": "Abisales, Liberacíon",
+    "tipo": "Adendei Abisal",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image114.jpeg"
+  },
+  {
+    "id": "LGRO-049",
+    "nombre": "Abisales, Control",
+    "tipo": "Adendei Abisal",
+    "energia": "Cháaktica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image115.jpeg"
+  },
+  {
+    "id": "LGRO-050",
+    "nombre": "Abisales, Destrucción",
+    "tipo": "Adendei Abisal",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image116.jpeg"
+  },
+  {
+    "id": "LGRO-051",
+    "nombre": "Satélite V.E.L.O",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image117.jpeg"
+  },
+  {
+    "id": "LGRO-052",
+    "nombre": "Proliferación",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image118.jpeg"
+  },
+  {
+    "id": "LGRO-053",
+    "nombre": "Xilan, Poder del Árbol Sagrado",
+    "tipo": "Adendei Catrín",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image119.jpeg"
+  },
+  {
+    "id": "LGRO-054",
+    "nombre": "Zaykan, Anulación",
+    "tipo": "Adendei Catrín",
+    "energia": "Lítica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image120.jpeg"
+  },
+  {
+    "id": "LGRO-055",
+    "nombre": "El Gran Cataclismo",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image121.jpeg"
+  },
+  {
+    "id": "LGRO-056",
+    "nombre": "Enis, Burbuja de Tiempo",
+    "tipo": "Adendei Catrín",
+    "energia": "Gélida",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image122.jpeg"
+  },
+  {
+    "id": "LGRO-057",
+    "nombre": "Hog, Terremoto",
+    "tipo": "Rava",
+    "energia": "Lítica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image123.jpeg"
+  },
+  {
+    "id": "LGRO-058",
+    "nombre": "El Otro Lado",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image124.jpeg"
+  },
+  {
+    "id": "LGRO-059",
+    "nombre": "Xilan, Sacrificio",
+    "tipo": "Adendei Catrín",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image125.jpeg"
+  },
+  {
+    "id": "LGRO-060",
+    "nombre": "Zaykan, Primer Peldaño",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image126.jpeg"
+  },
+  {
+    "id": "LGRO-061",
+    "nombre": "Nánuk, Usurpación",
+    "tipo": "Adendei Kósmico",
+    "energia": "Gélida",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image127.jpeg"
+  },
+  {
+    "id": "LGRO-062",
+    "nombre": "Tekei, Destierro",
+    "tipo": "Adendei",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image128.jpeg"
+  },
+  {
+    "id": "LGRO-063",
+    "nombre": "Hali, Ave de Trueno",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image129.jpeg"
+  },
+  {
+    "id": "LGRO-064",
+    "nombre": "Zotz, Aislamiento",
+    "tipo": "Adendei",
+    "energia": "Húumica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image130.jpeg"
+  },
+  {
+    "id": "LGRO-065",
+    "nombre": "Yakerr, Hogar",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image131.jpeg"
+  },
+  {
+    "id": "LGRO-066",
+    "nombre": "Ariam, Culpa",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image132.jpeg"
+  },
+  {
+    "id": "LGRO-067",
+    "nombre": "Yanzi Precisión (errata)",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image133.jpeg"
+  },
+  {
+    "id": "LGRO-068",
+    "nombre": "Enis, Coma",
+    "tipo": "Adendei",
+    "energia": "Gélida",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image134.jpeg"
+  },
+  {
+    "id": "LGRO-069",
+    "nombre": "Karus, Ponzoña Purpúrea",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image135.jpeg"
+  },
+  {
+    "id": "LGRO-070",
+    "nombre": "Ilith, Canto Sagrado (errata)",
+    "tipo": "Adendei Kósmico",
+    "energia": "Pírica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image136.jpeg"
+  },
+  {
+    "id": "LGRO-071",
+    "nombre": "Zaykan, Emboscada",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image137.jpeg"
+  },
+  {
+    "id": "LGRO-072",
+    "nombre": "Zenam, Veneno Siseante",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image138.jpeg"
+  },
+  {
+    "id": "LGRO-073",
+    "nombre": "Zenam, Vigilancia (errata)",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image139.jpeg"
+  },
+  {
+    "id": "LGRO-074",
+    "nombre": "Ariam, Jugada Maestra",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image140.jpeg"
+  },
+  {
+    "id": "LGRO-075",
+    "nombre": "Bóras Gigante Polar",
+    "tipo": "Adendei Kósmico",
+    "energia": "Gélida",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image141.jpeg"
+  },
+  {
+    "id": "LGRO-076",
+    "nombre": "Ilith, Fuego Primo",
+    "tipo": "Adendei Kósmico",
+    "energia": "Pírica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image142.jpeg"
+  },
+  {
+    "id": "LGRO-077",
+    "nombre": "Kuyovi, Salto Eléctrico",
+    "tipo": "Adendei",
+    "energia": "Demótica",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image143.jpeg"
+  },
+  {
+    "id": "LGRO-078",
+    "nombre": "Ariam, Carga Pírica",
+    "tipo": "Adendei",
+    "energia": "Pírica Titanes de la corteza y ojos del oceano No./Serie Nombre/Tipo/Energía Imagen",
+    "expansion": "La Guerra Roja",
+    "imagen": "imagenes/image144.jpeg"
+  },
+  {
+    "id": "TCOO-001",
+    "nombre": "Morx, Descarga Átlica",
+    "tipo": "Adendei Titán",
+    "energia": "Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image145.jpeg"
+  },
+  {
+    "id": "TCOO-002",
+    "nombre": "Hypex , Guía Jurásico",
+    "tipo": "Adendei Titán",
+    "energia": "Húumica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image146.jpeg"
+  },
+  {
+    "id": "TCOO-003",
+    "nombre": "Draxes, Instinto Drconiano",
+    "tipo": "Adendei Titán",
+    "energia": "Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image147.jpeg"
+  },
+  {
+    "id": "TCOO-004",
+    "nombre": "Virste Reseteo",
+    "tipo": "Adendei Titán",
+    "energia": "Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image148.jpeg"
+  },
+  {
+    "id": "TCOO-005",
+    "nombre": "Zinawe , rey de las Aves",
+    "tipo": "Adendei Titán",
+    "energia": "Demótica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image149.jpeg"
+  },
+  {
+    "id": "TCOO-006",
+    "nombre": "Rypto, Jugada Veloz",
+    "tipo": "Adendei Titán",
+    "energia": "Cháaktica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image150.jpeg"
+  },
+  {
+    "id": "TCOO-007",
+    "nombre": "Ojos de Nígre",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image151.jpeg"
+  },
+  {
+    "id": "TCOO-008",
+    "nombre": "El Otro, Dominio Vegetal",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image152.jpeg"
+  },
+  {
+    "id": "TCOO-009",
+    "nombre": "Draxes, Último Aliento",
+    "tipo": "Adendei Titán",
+    "energia": "Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image153.jpeg"
+  },
+  {
+    "id": "TCOO-010",
+    "nombre": "El Otro, Vínculo",
+    "tipo": "Adendei",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image154.jpeg"
+  },
+  {
+    "id": "TCOO-011",
+    "nombre": "Akame , Reino de Vída",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image155.jpeg"
+  },
+  {
+    "id": "TCOO-012",
+    "nombre": "Árbol de la Savia Sagrada",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image156.jpeg"
+  },
+  {
+    "id": "TCOO-013",
+    "nombre": "Xelbalán, Reino de Muerte",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image157.jpeg"
+  },
+  {
+    "id": "TCOO-014",
+    "nombre": "Recipiente de Vida",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image158.jpeg"
+  },
+  {
+    "id": "TCOO-015",
+    "nombre": "Árbol Jurásico",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image159.jpeg"
+  },
+  {
+    "id": "TCOO-016",
+    "nombre": "Flora Filosofal",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image160.png"
+  },
+  {
+    "id": "TCOO-017",
+    "nombre": "Escamas de Lava",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image161.jpeg"
+  },
+  {
+    "id": "TCOO-018",
+    "nombre": "Derrumbe Jurásico",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image162.jpeg"
+  },
+  {
+    "id": "TCOO-019",
+    "nombre": "Cascada de Lava",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image163.jpeg"
+  },
+  {
+    "id": "TCOO-020",
+    "nombre": "Mork, Plumas y estelas",
+    "tipo": "Adendei Titán",
+    "energia": "Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image164.jpeg"
+  },
+  {
+    "id": "TCOO-021",
+    "nombre": "Virste, Restauración",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image165.jpeg"
+  },
+  {
+    "id": "TCOO-022",
+    "nombre": "Greah, Mazo Pétreo",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image166.jpeg"
+  },
+  {
+    "id": "TCOO-023",
+    "nombre": "Therz, Prevención",
+    "tipo": "Adendei Titán",
+    "energia": "Demótica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image167.jpeg"
+  },
+  {
+    "id": "TCOO-024",
+    "nombre": "Chapalab, Primer Feral",
+    "tipo": "Adendei Titán",
+    "energia": "Feral",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image168.jpeg"
+  },
+  {
+    "id": "TCOO-025",
+    "nombre": "Draxes, Rugido de Poder",
+    "tipo": "Adendei Titán",
+    "energia": "Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image169.jpeg"
+  },
+  {
+    "id": "TCOO-026",
+    "nombre": "Greifen, Ímpeto Pírico",
+    "tipo": "Adendei Titán",
+    "energia": "Húumica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image170.jpeg"
+  },
+  {
+    "id": "TCOO-027",
+    "nombre": "Retis, Sumergido",
+    "tipo": "Adendei Titán",
+    "energia": "Lítica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image171.jpeg"
+  },
+  {
+    "id": "TCOO-028",
+    "nombre": "Mizthe, Ancestral",
+    "tipo": "Adendei Guardián",
+    "energia": "Feral",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image172.jpeg"
+  },
+  {
+    "id": "TCOO-029",
+    "nombre": "Rasvel, !Descongelado¡",
+    "tipo": "Adendei Titán",
+    "energia": "Gélida",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image173.jpeg"
+  },
+  {
+    "id": "TCOO-030",
+    "nombre": "Rasvel, !Congelado¡",
+    "tipo": "Adendei Titán",
+    "energia": "Gélida",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image174.jpeg"
+  },
+  {
+    "id": "TCOO-031",
+    "nombre": "Zilit, Lus Liquída",
+    "tipo": "Adendei Titán",
+    "energia": "Húumica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image175.jpeg"
+  },
+  {
+    "id": "TCOO-032",
+    "nombre": "Dragel, Relámpago Océanico",
+    "tipo": "Adendei Titán",
+    "energia": "Cháaktica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image176.jpeg"
+  },
+  {
+    "id": "TCOO-033",
+    "nombre": "Hypex vs Draxes , Batalla Prehistórica",
+    "tipo": "Adendei Titán",
+    "energia": "Húumica -Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image177.jpeg"
+  },
+  {
+    "id": "TCOO-034",
+    "nombre": "Greifen vs Rasvel, Error Anacrónico",
+    "tipo": "Adendei Titán",
+    "energia": "Húumica -Gélida",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image178.jpeg"
+  },
+  {
+    "id": "TCOO-035",
+    "nombre": "Retis, Mímesis Átlica",
+    "tipo": "Adendei Titán",
+    "energia": "Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image179.jpeg"
+  },
+  {
+    "id": "TCOO-036",
+    "nombre": "Zaykan, Citadel",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image180.jpeg"
+  },
+  {
+    "id": "TCOO-037",
+    "nombre": "Karus, Pinchazo Doble",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image181.jpeg"
+  },
+  {
+    "id": "TCOO-038",
+    "nombre": "Zoadon, Filtración",
+    "tipo": "Adendei Titán",
+    "energia": "Lítica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image182.jpeg"
+  },
+  {
+    "id": "TCOO-039",
+    "nombre": "Kaykac , Sorpresa Pírica",
+    "tipo": "Adendei",
+    "energia": "Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image183.jpeg"
+  },
+  {
+    "id": "TCOO-040",
+    "nombre": "Nepthis, Entre las Sombras",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image184.jpeg"
+  },
+  {
+    "id": "TCOO-041",
+    "nombre": "Kaykac, Explosión Marina",
+    "tipo": "Adendei",
+    "energia": "Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image185.jpeg"
+  },
+  {
+    "id": "TCOO-042",
+    "nombre": "Zenam , Choque Tóxico",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image186.jpeg"
+  },
+  {
+    "id": "TCOO-043",
+    "nombre": "Rhymir, Devorador de Rayos",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image187.jpeg"
+  },
+  {
+    "id": "TCOO-044",
+    "nombre": "Zaykan, Fractura",
+    "tipo": "Adendei",
+    "energia": "Lítica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image188.jpeg"
+  },
+  {
+    "id": "TCOO-045",
+    "nombre": "Xilan, Fractura",
+    "tipo": "Adendei",
+    "energia": "Húumica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image189.jpeg"
+  },
+  {
+    "id": "TCOO-046",
+    "nombre": "Shugg, Invulnerabilidad",
+    "tipo": "Adendei Abisal",
+    "energia": "Feral",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image190.jpeg"
+  },
+  {
+    "id": "TCOO-047",
+    "nombre": "Nodkh, Abismo Pétro",
+    "tipo": "Adendei Abisal",
+    "energia": "Lítica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image191.jpeg"
+  },
+  {
+    "id": "TCOO-048",
+    "nombre": "Uragg , Terror Múltiple",
+    "tipo": "Adendei Abisal",
+    "energia": "Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image192.jpeg"
+  },
+  {
+    "id": "TCOO-049",
+    "nombre": "Ulmor, Vínculo Odémico",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image193.jpeg"
+  },
+  {
+    "id": "TCOO-050",
+    "nombre": "Yailok, Contacto Paralizante",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image194.jpeg"
+  },
+  {
+    "id": "TCOO-051",
+    "nombre": "Rhymir, Pararayos",
+    "tipo": "Adendei",
+    "energia": "Cháaktica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image195.jpeg"
+  },
+  {
+    "id": "TCOO-052",
+    "nombre": "Pyrodon, Aura Pírica",
+    "tipo": "Adendei Kósmico",
+    "energia": "Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image196.jpeg"
+  },
+  {
+    "id": "TCOO-053",
+    "nombre": "Pyrodon, Coraza Ignífuga",
+    "tipo": "Adendei Kósmico",
+    "energia": "Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image197.jpeg"
+  },
+  {
+    "id": "TCOO-054",
+    "nombre": "Küron , Exhalación",
+    "tipo": "Adendei Kósmico",
+    "energia": "Gélida",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image198.jpeg"
+  },
+  {
+    "id": "TCOO-055",
+    "nombre": "Küron, Durmiente",
+    "tipo": "Adendei Kósmico",
+    "energia": "Gélida",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image199.jpeg"
+  },
+  {
+    "id": "TCOO-056",
+    "nombre": "Zaykan, Libertador Abisal",
+    "tipo": "Adendei",
+    "energia": "Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image200.jpeg"
+  },
+  {
+    "id": "TCOO-057",
+    "nombre": "Tarus, Conciliador",
+    "tipo": "Adendei",
+    "energia": "Húumica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image201.jpeg"
+  },
+  {
+    "id": "TCOO-058",
+    "nombre": "Karyn, Restauración",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image202.jpeg"
+  },
+  {
+    "id": "TCOO-059",
+    "nombre": "Eixen, Ardiente Venganza",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image203.jpeg"
+  },
+  {
+    "id": "TCOO-060",
+    "nombre": "Zaren, Unión",
+    "tipo": "Protector",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image204.jpeg"
+  },
+  {
+    "id": "TCOO-061",
+    "nombre": "Caldera, Submarina",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image205.jpeg"
+  },
+  {
+    "id": "TCOO-062",
+    "nombre": "Migración, Defensiva",
+    "tipo": "Adendei",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image206.jpeg"
+  },
+  {
+    "id": "TCOO-063",
+    "nombre": "Laberinto de Arrecife",
+    "tipo": "Bio",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image207.jpeg"
+  },
+  {
+    "id": "TCOO-064",
+    "nombre": "Verdor Incandecente",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image208.jpeg"
+  },
+  {
+    "id": "TCOO-065",
+    "nombre": "Restauración Manglar",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image209.jpeg"
+  },
+  {
+    "id": "TCOO-066",
+    "nombre": "Capullo Aislante",
+    "tipo": "Ixim",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image210.jpeg"
+  },
+  {
+    "id": "TCOO-067",
+    "nombre": "Rot Ígneo",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image211.jpeg"
+  },
+  {
+    "id": "TCOO-068",
+    "nombre": "Restauración, Mineral",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image212.jpeg"
+  },
+  {
+    "id": "TCOO-069",
+    "nombre": "Icberg de Control",
+    "tipo": "Rot",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image213.jpeg"
+  },
+  {
+    "id": "TCOO-070",
+    "nombre": "Yogg vs Rhymir, Rayo contra Luz",
+    "tipo": "Adendei Abisal",
+    "energia": "Cháaktica -Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image214.jpeg"
+  },
+  {
+    "id": "TCOO-071",
+    "nombre": "Atalkh, Desde las Profundidades",
+    "tipo": "Adendei Abisal",
+    "energia": "Demótica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image215.jpeg"
+  },
+  {
+    "id": "TCOO-072",
+    "nombre": "Dagg, Estrella del Abismo",
+    "tipo": "Adendei Abisal",
+    "energia": "Feral",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image216.jpeg"
+  },
+  {
+    "id": "TCOO-073",
+    "nombre": "Uragg, Vacío Infernal",
+    "tipo": "Adendei Abisal",
+    "energia": "Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image217.jpeg"
+  },
+  {
+    "id": "TCOO-074",
+    "nombre": "Yogg, Surgimiento",
+    "tipo": "Adendei Abisal",
+    "energia": "Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image218.jpeg"
+  },
+  {
+    "id": "TCOO-075",
+    "nombre": "Nozi, Deidad Átlica",
+    "tipo": "Rava",
+    "energia": "Átlica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image219.jpeg"
+  },
+  {
+    "id": "TCOO-076",
+    "nombre": "Hori, Deidad Pírica",
+    "tipo": "Rava",
+    "energia": "Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image220.jpeg"
+  },
+  {
+    "id": "TCOO-077",
+    "nombre": "Nok, Deidad Gélida",
+    "tipo": "Rava",
+    "energia": "Ninguna",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image221.jpeg"
+  },
+  {
+    "id": "TCOO-078",
+    "nombre": "Hog, Deidad Lítica",
+    "tipo": "Rava",
+    "energia": "Lítica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image222.jpeg"
+  },
+  {
+    "id": "TCOO-079",
+    "nombre": "Muz, Deidad Húumica",
+    "tipo": "Rava",
+    "energia": "Húumica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image223.jpeg"
+  },
+  {
+    "id": "TCOO-080",
+    "nombre": "Ruk, Deidad Cháaktica",
+    "tipo": "Rava",
+    "energia": "Cháaktica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image224.jpeg"
+  },
+  {
+    "id": "TCOO-081",
+    "nombre": "Quam, Detrás de la Materia",
+    "tipo": "Rava",
+    "energia": "Demótica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image225.jpeg"
+  },
+  {
+    "id": "TCOO-084",
+    "nombre": "Draxes , Ancestral",
+    "tipo": "Adendei Titán",
+    "energia": "Pírica",
+    "expansion": "Titanes de la Corteza y Ojos del Océano",
+    "imagen": "imagenes/image226.jpeg"
+  }
+]
