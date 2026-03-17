@@ -38,7 +38,7 @@ def cargar_cartas_crudas():
                         posible_lista.append(v)
                 if posible_lista:
                     return posible_lista
-                # si no, lo regresamos tal cual
+                # si no, lo regresamos tal cual (aunque no es el formato ideal)
                 return data
             return data
     raise FileNotFoundError("No encontré ni 'cartas.json' ni 'cards.json' en la carpeta del bot.")
@@ -53,20 +53,21 @@ def construir_indices(cartas_crudas):
     if isinstance(cartas_crudas, list):
         lista_cartas = cartas_crudas
     elif isinstance(cartas_crudas, dict):
-        # si viniera como dict raro, lo pasamos a lista
+        # si viniera como dict, lo pasamos a lista de lo que parezcan cartas
         for v in cartas_crudas.values():
             if isinstance(v, dict):
                 lista_cartas.append(v)
 
-    # índice por nombre en minúsculas
+    # índice por nombre (lower) para búsquedas
     cartas_por_nombre = {}
     for c in lista_cartas:
         nombre = str(c.get("nombre", "")).strip()
         if nombre:
             cartas_por_nombre[nombre.lower()] = c
+
     return lista_cartas, cartas_por_nombre
 
-# Cargamos una vez al inicio
+# Cargamos una vez ANTES de usar
 _cartas_crudas = cargar_cartas_crudas()
 cartas, cartas_por_nombre = construir_indices(_cartas_crudas)
 
@@ -180,3 +181,15 @@ async def on_message(message: discord.Message):
             if file:
                 await message.channel.send(embed=embed, file=file)
             else:
+                await message.channel.send(embed=embed)
+
+    # NO olvides procesar comandos
+    await bot.process_commands(message)
+
+# =========================
+#  RUN
+# =========================
+if __name__ == "__main__":
+    if not TOKEN:
+        raise RuntimeError("Define la variable de entorno TOKEN con el token de tu bot")
+    bot.run(TOKEN)
