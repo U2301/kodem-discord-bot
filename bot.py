@@ -14,34 +14,38 @@ from discord.ext import commands
 from discord import app_commands
 from difflib import SequenceMatcher
 
-# =========================
-#  CONFIG
-# =========================
-TOKEN = os.getenv("TOKEN")
+# ======================================================
+# CONFIG (DEV/PROD)
+# ======================================================
+TOKEN = os.getenv("TOKEN", "")
 
-# 🔧 Leemos GUILD_ID de forma robusta (quitamos espacios/comillas y dejamos solo dígitos)
+# MODE:
+#   "dev"  => registra SÓLO en GUILD (inmediato, sin duplicados). Requiere GUILD_ID.
+#   "prod" => registra SÓLO GLOBAL (funciona en cualquier servidor, con latencia normal de Discord).
+MODE = os.getenv("MODE", "prod").strip().lower()  # "dev" o "prod"
+
+# En DEV necesitamos GUILD_ID (sólo dígitos)
 RAW_GUILD_ENV = os.getenv("GUILD_ID", "")
-RAW_GUILD_ENV_STRIPPED = (RAW_GUILD_ENV or "").strip()
-RAW_GUILD_ENV_DIGITS = re.sub(r"\D", "", RAW_GUILD_ENV_STRIPPED)  # deja solo números
+RAW_GUILD_ENV_DIGITS = re.sub(r"\D", "", RAW_GUILD_ENV or "")
 GUILD_ID = int(RAW_GUILD_ENV_DIGITS) if RAW_GUILD_ENV_DIGITS else 0
-GUILD_OBJ = discord.Object(id=GUILD_ID) if GUILD_ID > 0 else None
+GUILD_OBJ = discord.Object(id=GUILD_ID) if (MODE == "dev" and GUILD_ID > 0) else None
 
-print(f"[env] GUILD_ID raw='{RAW_GUILD_ENV}' | stripped='{RAW_GUILD_ENV_STRIPPED}' | parsed={GUILD_ID}")
+print(f"[env] MODE='{MODE}' | GUILD_ID(raw)='{RAW_GUILD_ENV}' | parsed={GUILD_ID}")
 
 DATA_DIR = "data"
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
 TRADES_FILE = os.path.join(DATA_DIR, "trades.json")
 
-# =========================
-#  BOT & INTENTS
-# =========================
+# ======================================================
+# BOT & INTENTS
+# ======================================================
 intents = discord.Intents.default()
 intents.message_content = True  # compat con comandos "!" y autocitas [[...]]
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# =========================
-#  CARGA DE CARTAS (compat)
-# =========================
+# ======================================================
+# CARGA DE CARTAS (compat: cartas.json o cards.json)
+# ======================================================
 CARTAS_FILE_CANDIDATOS = ["cartas.json", "cards.json"]  # primero el nuevo
 
 def cargar_cartas_crudas():
@@ -98,9 +102,9 @@ def construir_indices(cartas_crudas):
 _cartas_crudas = cargar_cartas_crudas()
 cartas, cartas_por_nombre, cartas_por_id, EXPANSIONES = construir_indices(_cartas_crudas)
 
-# =========================
-#  PERSISTENCIA simple (JSON)
-# =========================
+# ======================================================
+# PERSISTENCIA simple (JSON)
+# ======================================================
 os.makedirs(DATA_DIR, exist_ok=True)
 
 def _load_json(path, default):
@@ -150,9 +154,9 @@ def _parse_id_list(s: str) -> List[str]:
         normed.append(p)
     return normed
 
-# =========================
-#  NORMALIZACIÓN & FUZZY
-# =========================
+# ======================================================
+# NORMALIZACIÓN & BÚSQUEDA FUZZY
+# ======================================================
 def norm_text(s: str) -> str:
     if not s:
         return ""
@@ -170,12 +174,14 @@ def buscar_fuzzy(query: str, top: int = 5):
         return []
     qn = norm_text(query)
 
+    # Prioriza substring directo
     hits_sub = []
     for c in cartas:
         n = norm_text(c.get("nombre", ""))
         if qn in n:
             hits_sub.append((1.0, c))
 
+    # Luego similitud
     already = {id(h[1]) for h in hits_sub}
     scored = []
     for c in cartas:
@@ -191,9 +197,9 @@ def buscar_fuzzy(query: str, top: int = 5):
     results = [c for _, c in hits_sub] + [c for _, c in scored]
     return results[:top]
 
-# =========================
-#  HELPERS: EMBED / ENVÍO
-# =========================
+# ======================================================
+# HELPERS de EMBED / ENVÍO
+# ======================================================
 def embed_carta(carta: Dict):
     nombre = carta.get("nombre", "Carta")
     tipo = carta.get("tipo", "N/D")
@@ -212,37 +218,51 @@ def embed_carta(carta: Dict):
         return e, file
     return e, None
 
-# =========================
-#  SINCRONIZACIÓN DE SLASH (GUILD PRIMERO)
-# =========================
+# ======================================================
+# SYNC DE SLASH SIN DUPLICADOS
+# ======================================================
 @bot.event
 async def setup_hook():
-    # Se ejecuta antes de conectar; ideal para sync de slash.
+    """
+    - DEV: limpia global (0 comandos) y registra sólo en GUILD (inmediato).
+    - PROD: registra sólo GLOBAL (funciona en todos los servidores; con latencia normal).
+    """
     try:
-        if GUILD_OBJ:
-            print(f"[setup_hook] GUILD_ID detectado: {GUILD_ID}. Registrando slash como GUILD (inmediato).")
-            # Clona los globales hacia el guild y sincroniza
-            bot.tree.copy_global_to(guild=GUILD_OBJ)
-            synced_g = await bot.tree.sync(guild=GUILD_OBJ)
-            print(f"[setup_hook] Slash (guild={GUILD_ID}) sincronizados: {len(synced_g)}")
+        if MODE == "dev":
+            if not GUILD_OBJ:
+                print("[setup_hook] MODE=dev, pero GUILD_ID no válido. Registro GLOBAL como fallback.")
+                synced = await bot.tree.sync()
+                print(f"[setup_hook] MODE=dev (fallback): Slash (global) sincronizados: {len(synced)}")
+            else:
+                # 1) Global → vacío (para borrar cualquier rastro viejo y evitar duplicados)
+                #    Ojo: como definimos los comandos SIN @guilds, el árbol global no está vacío.
+                #    En dev, forzamos un global vacío borrando el local y re-sincronizando.
+                bot.tree.clear_commands(guild=None)  # limpia el árbol local global
+                synced_glob = await bot.tree.sync()  # empuja "0" a global (borra remotos)
+                print(f"[setup_hook] MODE=dev: Slash (global) sincronizados: {len(synced_glob)} (esperado 0)")
+
+                # 2) Guild → todos los comandos (instantáneo)
+                #    Volvemos a registrar LOCALMENTE todos los comandos (ya declarados) contra el GUILD al sincronizar:
+                synced_g = await bot.tree.sync(guild=GUILD_OBJ)
+                print(f"[setup_hook] MODE=dev: Slash (guild={GUILD_ID}) sincronizados: {len(synced_g)}")
         else:
-            print("[setup_hook] GUILD_ID no definido. Registrando solo GLOBAL (puede tardar en cliente).")
-            synced_glob = await bot.tree.sync()
-            print(f"[setup_hook] Slash (global) sincronizados: {len(synced_glob)}")
+            # PROD: sólo GLOBAL
+            synced = await bot.tree.sync()
+            print(f"[setup_hook] MODE=prod: Slash (global) sincronizados: {len(synced)}")
     except Exception as e:
         print("[setup_hook] Error al sincronizar slash commands:", repr(e))
 
-# =========================
-#  EVENTOS
-# =========================
+# ======================================================
+# EVENTOS
+# ======================================================
 @bot.event
 async def on_ready():
     print(f"Bot conectado como {bot.user}")
     print(f"Cartas cargadas: {len(cartas)}")
 
-# =========================
-#  COMANDOS DE TEXTO "!"
-# =========================
+# ======================================================
+# COMANDOS DE TEXTO "!"
+# ======================================================
 @bot.command(name="carta")
 async def cmd_carta(ctx, *, nombre):
     if not nombre:
@@ -305,9 +325,9 @@ async def cmd_list(ctx):
     )
     await ctx.send(embed=embed)
 
-# =========================
-#  SLASH: /help
-# =========================
+# ======================================================
+# SLASH: /help
+# ======================================================
 @bot.tree.command(name="help", description="Ver ayuda de comandos de Kodem TCG")
 async def slash_help(interaction: discord.Interaction):
     desc = (
@@ -328,9 +348,9 @@ async def slash_help(interaction: discord.Interaction):
         ephemeral=True
     )
 
-# =========================
-#  SLASH: /carta (autocomplete)
-# =========================
+# ======================================================
+# SLASH: /carta (autocomplete)
+# ======================================================
 def _top_sugerencias(query: str, limit: int = 25):
     if not query:
         base = sorted([c.get("nombre", "") for c in cartas if c.get("nombre")], key=lambda x: norm_text(x))
@@ -369,9 +389,9 @@ async def slash_carta(interaction: discord.Interaction, nombre: str):
     else:
         await interaction.response.send_message(embed=embed)
 
-# =========================
-#  SLASH: /abrir (1 sobre / día)
-# =========================
+# ======================================================
+# SLASH: /abrir (1 sobre / día)
+# ======================================================
 def expansion_choices():
     return [app_commands.Choice(name=e, value=e) for e in EXPANSIONES]
 
@@ -409,9 +429,9 @@ async def slash_abrir(interaction: discord.Interaction, expansion: app_commands.
         ephemeral=False
     )
 
-# =========================
-#  SLASH: /coleccion
-# =========================
+# ======================================================
+# SLASH: /coleccion
+# ======================================================
 @bot.tree.command(name="coleccion", description="Muestra tu colección (total o por expansión)")
 @app_commands.describe(expansion="(Opcional) Filtra por expansión")
 @app_commands.choices(expansion=expansion_choices())
@@ -449,11 +469,11 @@ async def slash_coleccion(interaction: discord.Interaction, expansion: app_comma
         ephemeral=True
     )
 
-# =========================
-#  SLASH GROUP: /trade
-# =========================
+# ======================================================
+# SLASH GROUP: /trade
+# ======================================================
 trade_group = app_commands.Group(name="trade", description="Intercambios entre jugadores")
-bot.tree.add_command(trade_group)  # se clona a guild en setup_hook
+bot.tree.add_command(trade_group)
 
 @trade_group.command(name="proponer", description="Proponer intercambio a otro jugador")
 @app_commands.describe(
@@ -561,9 +581,9 @@ async def trade_cancelar(interaction: discord.Interaction, id: str):
 
     await interaction.response.send_message("❎ Trade cancelado.", ephemeral=True)
 
-# =========================
-#  AUTOCITAS [[nombre]]
-# =========================
+# ======================================================
+# AUTOCITAS [[nombre]]
+# ======================================================
 @bot.event
 async def on_message(message: discord.Message):
     if message.author.bot:
@@ -586,9 +606,9 @@ async def on_message(message: discord.Message):
 
     await bot.process_commands(message)
 
-# =========================
-#  RUN
-# =========================
+# ======================================================
+# RUN
+# ======================================================
 if __name__ == "__main__":
     if not TOKEN:
         raise RuntimeError("Define la variable de entorno TOKEN con el token de tu bot")
