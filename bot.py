@@ -18,9 +18,7 @@ from difflib import SequenceMatcher
 #  CONFIG
 # =========================
 TOKEN = os.getenv("TOKEN")
-# 🔧 IMPORTANTÍSIMO: pon el ID de tu servidor para tener sync inmediato y autocomplete al instante.
-#   - O define la variable de entorno GUILD_ID en Railway
-#   - O reemplaza "0" por tu ID (entero) aquí mismo.
+# ⚠️ Pon tu GUILD_ID en variables de entorno (Railway) para sync INSTANTÁNEO.
 GUILD_ID = int(os.getenv("GUILD_ID", "0"))  # ej.: 123456789012345678
 GUILD_OBJ = discord.Object(id=GUILD_ID) if GUILD_ID else None
 
@@ -50,7 +48,7 @@ def cargar_cartas_crudas():
             with open(fn, "r", encoding="utf-8") as f:
                 data = json.load(f)
             if isinstance(data, dict):
-                # Soporta formatos antiguos dict->lista
+                # Soporta formato viejo dict->lista
                 posible_lista = []
                 for _, v in data.items():
                     if isinstance(v, dict) and "nombre" in v:
@@ -64,8 +62,8 @@ def cargar_cartas_crudas():
 def construir_indices(cartas_crudas):
     """
     Construye:
-    - cartas: lista de dicts (cada carta con id, nombre, tipo, energia, expansion, imagen)
-    - cartas_por_nombre: dict nombre_min -> carta (para búsquedas rápidas)
+    - cartas: lista de dicts (id, nombre, tipo, energia, expansion, imagen)
+    - cartas_por_nombre: dict nombre_min -> carta
     - cartas_por_id: dict id -> carta
     - EXPANSIONES: lista única de expansiones (orden alfabético)
     """
@@ -209,25 +207,32 @@ def embed_carta(carta: Dict):
     return e, None
 
 # =========================
+#  SINCRONIZACIÓN DE SLASH (GUILD PRIMERO)
+# =========================
+@bot.event
+async def setup_hook():
+    # Se ejecuta antes de conectar; ideal para sync de slash.
+    try:
+        if GUILD_OBJ:
+            print(f"[setup_hook] GUILD_ID detectado: {GUILD_ID}. Registrando slash como GUILD (inmediato).")
+            # clona todos los globales a guild y sincroniza
+            bot.tree.copy_global_to(guild=GUILD_OBJ)
+            synced_g = await bot.tree.sync(guild=GUILD_OBJ)
+            print(f"[setup_hook] Slash (guild={GUILD_ID}) sincronizados: {len(synced_g)}")
+        else:
+            print("[setup_hook] GUILD_ID no definido. Registrando solo GLOBAL (puede tardar en cliente).")
+            synced_glob = await bot.tree.sync()
+            print(f"[setup_hook] Slash (global) sincronizados: {len(synced_glob)}")
+    except Exception as e:
+        print("[setup_hook] Error al sincronizar slash commands:", repr(e))
+
+# =========================
 #  EVENTOS
 # =========================
 @bot.event
 async def on_ready():
     print(f"Bot conectado como {bot.user}")
     print(f"Cartas cargadas: {len(cartas)}")
-
-    # 🔧 Sincroniza slash commands.
-    # Si hay GUILD_ID, clona los globales hacia guild para que se actualicen INSTANTÁNEO.
-    try:
-        if GUILD_OBJ:
-            bot.tree.copy_global_to(guild=GUILD_OBJ)  # clona definiciones actuales
-            synced = await bot.tree.sync(guild=GUILD_OBJ)
-            print(f"Slash (guild={GUILD_ID}) sincronizados: {len(synced)}")
-        else:
-            synced = await bot.tree.sync()  # global (puede tardar en reflejarse en el cliente)
-            print(f"Slash (global) sincronizados: {len(synced)}")
-    except Exception as e:
-        print("Error al sincronizar slash commands:", repr(e))
 
 # =========================
 #  COMANDOS DE TEXTO "!"
@@ -301,14 +306,14 @@ async def cmd_list(ctx):
 async def slash_help(interaction: discord.Interaction):
     desc = (
         "**BÚSQUEDA**\n"
-        "• `/carta nombre:<texto>` — Busca con autocompletar (soporta nombres parecidos)\n"
+        "• `/carta nombre:<texto>` — Autocompletar (nombres parecidos)\n"
         "• `!carta <texto>` — Versión por texto (con fuzzy)\n\n"
         "**TCG VIRTUAL**\n"
-        "• `/abrir expansion:<exp>` — Abre 5 cartas de esa expansión (1 sobre/día)\n"
-        "• `/coleccion [expansion:<exp>]` — Muestra tu colección (total o filtrada)\n\n"
+        "• `/abrir expansion:<exp>` — 5 cartas de esa expansión (1 sobre/día)\n"
+        "• `/coleccion [expansion:<exp>]` — Tu colección (total o filtrada)\n\n"
         "**INTERCAMBIOS**\n"
         "• `/trade proponer` — Crear oferta\n"
-        "• `/trade aceptar` — Aceptar una oferta dirigida a ti\n"
+        "• `/trade aceptar` — Aceptar oferta para ti\n"
         "• `/trade cancelar` — Cancelar tu oferta\n"
         "\n**TIP**: Autocitas `[[Nombre de carta]]` en cualquier mensaje."
     )
@@ -442,10 +447,7 @@ async def slash_coleccion(interaction: discord.Interaction, expansion: app_comma
 #  SLASH GROUP: /trade
 # =========================
 trade_group = app_commands.Group(name="trade", description="Intercambios entre jugadores")
-if GUILD_OBJ:
-    # registra el grupo como guild para respuesta inmediata
-    trade_group.guild_ids = [GUILD_ID]
-bot.tree.add_command(trade_group)
+bot.tree.add_command(trade_group)  # se clona a guild en setup_hook
 
 @trade_group.command(name="proponer", description="Proponer intercambio a otro jugador")
 @app_commands.describe(
