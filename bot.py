@@ -7,7 +7,7 @@ import unicodedata
 import asyncio
 import datetime
 from collections import Counter
-from typing import List, Dict, Tuple
+from typing import List, Dict
 
 import discord
 from discord.ext import commands
@@ -15,21 +15,30 @@ from discord import app_commands
 from difflib import SequenceMatcher
 
 # =========================
-#  CONFIG E INTENTS
+#  CONFIG
 # =========================
 TOKEN = os.getenv("TOKEN")
+# 🔧 IMPORTANTÍSIMO: pon el ID de tu servidor para tener sync inmediato y autocomplete al instante.
+#   - O define la variable de entorno GUILD_ID en Railway
+#   - O reemplaza "0" por tu ID (entero) aquí mismo.
+GUILD_ID = int(os.getenv("GUILD_ID", "0"))  # ej.: 123456789012345678
+GUILD_OBJ = discord.Object(id=GUILD_ID) if GUILD_ID else None
+
 DATA_DIR = "data"
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
 TRADES_FILE = os.path.join(DATA_DIR, "trades.json")
 
+# =========================
+#  BOT & INTENTS
+# =========================
 intents = discord.Intents.default()
-intents.message_content = True  # compat comandos "!"
+intents.message_content = True  # compat con comandos "!" y autocitas [[...]]
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # =========================
 #  CARGA DE CARTAS (compat)
 # =========================
-CARTAS_FILE_CANDIDATOS = ["cartas.json", "cards.json"]  # primero el nuevo nombre
+CARTAS_FILE_CANDIDATOS = ["cartas.json", "cards.json"]  # primero el nuevo
 
 def cargar_cartas_crudas():
     """
@@ -40,8 +49,8 @@ def cargar_cartas_crudas():
         if os.path.exists(fn):
             with open(fn, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            # Puede venir como lista (generador actual) o como dict (versiones viejas)
             if isinstance(data, dict):
+                # Soporta formatos antiguos dict->lista
                 posible_lista = []
                 for _, v in data.items():
                     if isinstance(v, dict) and "nombre" in v:
@@ -56,9 +65,9 @@ def construir_indices(cartas_crudas):
     """
     Construye:
     - cartas: lista de dicts (cada carta con id, nombre, tipo, energia, expansion, imagen)
-    - cartas_por_nombre: dict nombre_min -> carta
+    - cartas_por_nombre: dict nombre_min -> carta (para búsquedas rápidas)
     - cartas_por_id: dict id -> carta
-    - expansiones: lista única de expansiones (orden alfabético)
+    - EXPANSIONES: lista única de expansiones (orden alfabético)
     """
     lista_cartas = []
     if isinstance(cartas_crudas, list):
@@ -81,7 +90,7 @@ def construir_indices(cartas_crudas):
     expansiones = sorted({c.get("expansion") for c in lista_cartas if c.get("expansion")})
     return lista_cartas, cartas_por_nombre, cartas_por_id, expansiones
 
-# Cargamos datos de cartas ANTES de usarlos
+# Carga inicial
 _cartas_crudas = cargar_cartas_crudas()
 cartas, cartas_por_nombre, cartas_por_id, EXPANSIONES = construir_indices(_cartas_crudas)
 
@@ -129,7 +138,6 @@ def _remove_cards_from_user(user_id: int, ids: List[str]) -> bool:
     return True
 
 def _parse_id_list(s: str) -> List[str]:
-    # Ej: "IDRMA-001, LGRO-012, TCOO-010" o "LGRO012"
     parts = [p.strip().upper() for p in s.replace("—", "-").replace("–", "-").split(",") if p.strip()]
     normed = []
     for p in parts:
@@ -158,14 +166,12 @@ def buscar_fuzzy(query: str, top: int = 5):
         return []
     qn = norm_text(query)
 
-    # 1) prioridad: substring
     hits_sub = []
     for c in cartas:
         n = norm_text(c.get("nombre", ""))
         if qn in n:
             hits_sub.append((1.0, c))
 
-    # 2) similitud difflib para el resto
     already = {id(h[1]) for h in hits_sub}
     scored = []
     for c in cartas:
@@ -207,17 +213,21 @@ def embed_carta(carta: Dict):
 # =========================
 @bot.event
 async def on_ready():
+    print(f"Bot conectado como {bot.user}")
+    print(f"Cartas cargadas: {len(cartas)}")
+
+    # 🔧 Sincroniza slash commands.
+    # Si hay GUILD_ID, clona los globales hacia guild para que se actualicen INSTANTÁNEO.
     try:
-        print(f"Bot conectado como {bot.user}")
-        print(f"Cartas cargadas: {len(cartas)}")
-        # Slash commands
-        try:
-            synced = await bot.tree.sync()
-            print(f"Slash commands sincronizados: {len(synced)}")
-        except Exception as e:
-            print("Error al sincronizar slash commands:", repr(e))
+        if GUILD_OBJ:
+            bot.tree.copy_global_to(guild=GUILD_OBJ)  # clona definiciones actuales
+            synced = await bot.tree.sync(guild=GUILD_OBJ)
+            print(f"Slash (guild={GUILD_ID}) sincronizados: {len(synced)}")
+        else:
+            synced = await bot.tree.sync()  # global (puede tardar en reflejarse en el cliente)
+            print(f"Slash (global) sincronizados: {len(synced)}")
     except Exception as e:
-        print("Error en on_ready:", repr(e))
+        print("Error al sincronizar slash commands:", repr(e))
 
 # =========================
 #  COMANDOS DE TEXTO "!"
@@ -259,7 +269,7 @@ async def cmd_random(ctx):
 @bot.command(name="list")
 async def cmd_list(ctx):
     """
-    Muestra un listado de comandos disponibles con una breve descripción.
+    Lista de comandos disponibles con breve descripción.
     """
     desc = (
         "**Comandos (texto)**\n"
@@ -267,14 +277,12 @@ async def cmd_list(ctx):
         "• `!random` — Muestra una carta aleatoria\n"
         "• `!list` — Muestra este listado de ayuda\n"
         "\n"
-        "**Slash commands**\n"
+        "**Slash commands** (usa `/` para verlos y autocompletar):\n"
         "• `/help` — Explicación rápida de todos los comandos\n"
-        "• `/carta nombre:<texto>` — Con autocompletar (sugerencias en vivo)\n"
-        "• `/abrir expansion:<exp>` — Abre 5 cartas (máx. 1 sobre por día)\n"
-        "• `/coleccion [expansion:<exp>]` — Muestra tu colección total o filtrada\n"
-        "• `/trade proponer` — Proponer intercambio entre jugadores\n"
-        "• `/trade aceptar` — Aceptar un intercambio pendiente\n"
-        "• `/trade cancelar` — Cancelar un intercambio propio\n"
+        "• `/carta nombre:<texto>` — Con autocompletar en vivo\n"
+        "• `/abrir expansion:<exp>` — Abre 5 cartas (1 sobre por día)\n"
+        "• `/coleccion [expansion:<exp>]` — Tu colección total o filtrada\n"
+        "• `/trade proponer/aceptar/cancelar` — Intercambio entre jugadores\n"
         "\n"
         "**Autocitas**\n"
         "• Escribe `[[Nombre de carta]]` y el bot responde con la carta\n"
@@ -293,14 +301,14 @@ async def cmd_list(ctx):
 async def slash_help(interaction: discord.Interaction):
     desc = (
         "**BÚSQUEDA**\n"
-        "• `/carta nombre:<texto>` — Busca con autocompletar\n"
+        "• `/carta nombre:<texto>` — Busca con autocompletar (soporta nombres parecidos)\n"
         "• `!carta <texto>` — Versión por texto (con fuzzy)\n\n"
         "**TCG VIRTUAL**\n"
         "• `/abrir expansion:<exp>` — Abre 5 cartas de esa expansión (1 sobre/día)\n"
         "• `/coleccion [expansion:<exp>]` — Muestra tu colección (total o filtrada)\n\n"
         "**INTERCAMBIOS**\n"
         "• `/trade proponer` — Crear oferta\n"
-        "• `/trade aceptar` — Aceptar una oferta que te hicieron\n"
+        "• `/trade aceptar` — Aceptar una oferta dirigida a ti\n"
         "• `/trade cancelar` — Cancelar tu oferta\n"
         "\n**TIP**: Autocitas `[[Nombre de carta]]` en cualquier mensaje."
     )
@@ -332,7 +340,7 @@ async def autocomplete_carta(interaction: discord.Interaction, current: str):
     return [app_commands.Choice(name=o[:100], value=o) for o in opciones]
 
 @bot.tree.command(name="carta", description="Busca una carta (fuzzy + autocompletar)")
-@app_commands.describe(nombre="Nombre de la carta")
+@app_commands.describe(nombre="Escribe parte del nombre (ej.: Zaykan...)")
 @app_commands.autocomplete(nombre=autocomplete_carta)
 async def slash_carta(interaction: discord.Interaction, nombre: str):
     carta = cartas_por_nombre.get(nombre.strip().lower())
@@ -354,11 +362,10 @@ async def slash_carta(interaction: discord.Interaction, nombre: str):
 #  SLASH: /abrir (1 sobre / día)
 # =========================
 def expansion_choices():
-    # Devuelve lista de app_commands.Choice para el parámetro expansion
     return [app_commands.Choice(name=e, value=e) for e in EXPANSIONES]
 
 @bot.tree.command(name="abrir", description="Abre 5 cartas de una expansión (1 sobre al día)")
-@app_commands.describe(expansion="Nombre de la expansión")
+@app_commands.describe(expansion="Selecciona la expansión")
 @app_commands.choices(expansion=expansion_choices())
 async def slash_abrir(interaction: discord.Interaction, expansion: app_commands.Choice[str]):
     user = interaction.user
@@ -422,7 +429,6 @@ async def slash_coleccion(interaction: discord.Interaction, expansion: app_comma
         nombre = cartas_por_id.get(cid, {}).get("nombre", cid)
         filas.append(f"• `{cid}` ×{cnt} — {nombre}")
 
-    # Corte simple por longitud
     description = f"**Total:** {sum(inv.values())} cartas{subtitulo}\n\n" + "\n".join(filas)
     if len(description) > 3900:
         description = description[:3900] + "\n…"
@@ -436,6 +442,9 @@ async def slash_coleccion(interaction: discord.Interaction, expansion: app_comma
 #  SLASH GROUP: /trade
 # =========================
 trade_group = app_commands.Group(name="trade", description="Intercambios entre jugadores")
+if GUILD_OBJ:
+    # registra el grupo como guild para respuesta inmediata
+    trade_group.guild_ids = [GUILD_ID]
 bot.tree.add_command(trade_group)
 
 @trade_group.command(name="proponer", description="Proponer intercambio a otro jugador")
@@ -458,11 +467,10 @@ async def trade_proponer(interaction: discord.Interaction, usuario: discord.Memb
 
     async with _users_lock:
         USERS.setdefault(str(autor.id), {"cards": {}, "last_pack_date": None})
-        if not _remove_cards_from_user(autor.id, give):  # Verificación en seco
+        if not _remove_cards_from_user(autor.id, give):
             await interaction.response.send_message("No tienes suficiente inventario para ofrecer esas cartas.", ephemeral=True)
             return
-        # rollback inmediato (solo validación)
-        _add_cards_to_user(autor.id, give)
+        _add_cards_to_user(autor.id, give)  # rollback validación
 
     async with _trades_lock:
         tid = str(TRADES["next_id"])
@@ -512,7 +520,7 @@ async def trade_aceptar(interaction: discord.Interaction, id: str):
             await interaction.response.send_message("El proponente ya no tiene las cartas ofrecidas.", ephemeral=True)
             return
         if not _remove_cards_from_user(to_id, receive):
-            _add_cards_to_user(from_id, give)  # rollback
+            _add_cards_to_user(from_id, give)
             await interaction.response.send_message("No tienes las cartas requeridas para aceptar.", ephemeral=True)
             return
 
